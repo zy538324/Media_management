@@ -65,29 +65,12 @@ def install_qbittorrent():
     else:
         subprocess.run(["tar", "-xzf", installer, "-C", "/opt/qBittorrent"])
 
-def install_mysql():
-    if platform.system() == "Windows":
-        url = "https://dev.mysql.com/get/Downloads/MySQLInstaller/mysql-installer-community-8.0.26.0.msi"
-        installer = os.path.join(os.getenv("TEMP"), "mysql_installer.msi")
-        subprocess.run(["curl", "-L", "-o", installer, url])
-        subprocess.run(["msiexec", "/i", installer, "/quiet"])
-    elif platform.system() == "Darwin":  # macOS
-        url = "https://dev.mysql.com/get/Downloads/MySQL-8.0/mysql-8.0.26-macos10.15-x86_64.dmg"
-        installer = "/tmp/mysql_installer.dmg"
-        subprocess.run(["curl", "-L", "-o", installer, url])
-        subprocess.run(["hdiutil", "attach", installer])
-        subprocess.run(["sudo", "installer", "-pkg", "/Volumes/mysql-8.0.26-macos10.15-x86_64/mysql-8.0.26-macos10.15-x86_64.pkg", "-target", "/"])
-        subprocess.run(["hdiutil", "detach", "/Volumes/mysql-8.0.26-macos10.15-x86_64"])
-    else:  # Linux
-        subprocess.run(["sudo", "apt-get", "update"])
-        subprocess.run(["sudo", "apt-get", "install", "-y", "mysql-server"])
 
 def main():
     install_dependencies()
     install_jellyfin()
     install_jackett()
     install_qbittorrent()
-    install_mysql()
 
 if __name__ == "__main__":
     main()
