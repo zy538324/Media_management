@@ -11,13 +11,13 @@ with app.app_context():
 
     if existing_users == 0:
         # Hash the password
-        hashed_password = generate_password_hash('22BigGingerButts!', method='pbkdf2:sha256')
+        hashed_password = generate_password_hash('', method='pbkdf2:sha256')
 
         # Create a new admin user
         admin_user = User(
-            username='Lisa',
+            username='',
             password=hashed_password,
-            email='Lisa@palmertech.co.uk',  # Replace with a valid email as needed
+            email='',  # Replace with a valid email as needed
             role='Admin',
             status='Active'
         )
