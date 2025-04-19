@@ -130,24 +130,24 @@ Database:
   path: media_management.db
   track_modifications: false
 Jackett:
-  api_key: j5bmf5mf3m83yx12tx3wbxk9jarux2wd
+  api_key: 
   categories:
     Movies: '2000'
     Music: '3000'
     TV: '5000'
-  server_url: http://10.252.0.15:9117/
+  server_url: http://<ip>:9117/
 Jellyfin:
-  api_key: d60eb1a6c2594fa7a47924c1b37cf81c
-  server_url: http://10.252.0.155:8096
-Secret_key: ZV}1Ux/!LfbACbIR@0:F
+  api_key: 
+  server_url: http://<ip>:8096
+Secret_key: 
 Spotify:
-  client_id: b3fb8ab712a9449e94e70c77d5ba5426
-  client_secret: f6e5c9c048c6453482d3cef2fd74b7ae
+  client_id: 
+  client_secret: 
 TMDb:
-  api_key: 84147d5f9aa77e54c45cd5b6ceabd0fc
+  api_key: 
 qBittorrent:
-  host: http://10.252.0.15:8080
-  password: =hX-z`PB_'4BiY'R+E~\
+  host: http://<ip>:8080
+  password: admin
   username: admin
 EOF
     chown $APP_USER:$APP_GROUP $CONFIG_DIR/config.yaml
