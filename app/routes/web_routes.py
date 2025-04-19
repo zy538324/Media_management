@@ -38,11 +38,11 @@ def get_download_path(title, media_type):
     media_type = media_type.lower() if media_type else None
 
     if media_type == 'movie':
-        return f"F:\\Movies\\{first_letter}\\"
+        return f"/mnt/media{first_letter}\\"
     elif media_type == 'tv show':
-        return f"F:\\Tv Shows\\{first_letter}\\"
+        return f"/opt/media/{first_letter}\\"
     elif media_type == 'music':
-        return f"F:\\Music\\{first_letter}\\"
+        return f"/opt/media/{first_letter}\\"
     else:
         raise ValueError(f"Unsupported media type: {media_type}. Cannot determine download path.")
 
@@ -403,7 +403,7 @@ def add_request():
         return redirect(url_for('web_routes.add_request'))
 
     current_requests = Request.query.all()
-    return render_template('add-request.html', requests=current_requests)
+    return render_template('add_request.html', requests=current_requests)
 
 
 @bp.route('/edit-request/<int:request_id>', methods=['GET', 'POST'])
