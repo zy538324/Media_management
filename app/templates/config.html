@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>Configuration</h1>
+    <form action="{{ url_for('config.config') }}" method="post">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <h2>Database Configuration</h2>
+        <label for="db_username">Database Username:</label>
+        <input type="text" id="db_username" name="db_username" value="{{ config.get('Database', {}).get('username', '') }}"><br>
+        <label for="db_password">Database Password:</label>
+        <input type="password" id="db_password" name="db_password" value="{{ config.get('Database', {}).get('password', '') }}"><br>
+        <label for="db_host">Database Host:</label>
+        <input type="text" id="db_host" name="db_host" value="{{ config.get('Database', {}).get('host', '') }}"><br>
+        <label for="db_name">Database Name:</label>
+        <input type="text" id="db_name" name="db_name" value="{{ config.get('Database', {}).get('database_name', '') }}"><br>
+        <label for="db_track_modifications">Track Modifications:</label>
+        <input type="checkbox" id="db_track_modifications" name="db_track_modifications" {% if config.get('Database', {}).get('track_modifications', False) %}checked{% endif %}><br>
+
+        <h2>TMDb Configuration</h2>
+        <label for="tmdb_api_key">TMDb API Key:</label>
+        <input type="text" id="tmdb_api_key" name="tmdb_api_key" value="{{ config.get('TMDb', {}).get('api_key', '') }}"><br>
+
+        <h2>Secret Key</h2>
+        <label for="secret_key">Secret Key:</label>
+        <input type="text" id="secret_key" name="secret_key" value="{{ config.get('Secret_key', '') }}"><br>
+
+        <h2>qBittorrent Configuration</h2>
+        <label for="qb_host">Host:</label>
+        <input type="text" id="qb_host" name="qb_host" value="{{ config.get('qBittorrent', {}).get('host', '') }}"><br>
+        <label for="qb_username">Username:</label>
+        <input type="text" id="qb_username" name="qb_username" value="{{ config.get('qBittorrent', {}).get('username', '') }}"><br>
+        <label for="qb_password">Password:</label>
+        <input type="password" id="qb_password" name="qb_password" value="{{ config.get('qBittorrent', {}).get('password', '') }}"><br>
+
+        <h2>Jackett Configuration</h2>
+        <label for="jackett_server_url">Server URL:</label>
+        <input type="text" id="jackett_server_url" name="jackett_server_url" value="{{ config.get('Jackett', {}).get('server_url', '') }}"><br>
+        <label for="jackett_api_key">API Key:</label>
+        <input type="text" id="jackett_api_key" name="jackett_api_key" value="{{ config.get('Jackett', {}).get('api_key', '') }}"><br>
+
+        <h2>Jellyfin Configuration</h2>
+        <label for="jellyfin_server_url">Server URL:</label>
+        <input type="text" id="jellyfin_server_url" name="jellyfin_server_url" value="{{ config.get('Jellyfin', {}).get('server_url', '') }}"><br>
+        <label for="jellyfin_api_key">API Key:</label>
+        <input type="text" id="jellyfin_api_key" name="jellyfin_api_key" value="{{ config.get('Jellyfin', {}).get('api_key', '') }}"><br>
+
+        <h2>Spotify Configuration</h2>
+        <label for="spotify_client_id">Client ID:</label>
+        <input type="text" id="spotify_client_id" name="spotify_client_id" value="{{ config.get('Spotify', {}).get('client_id', '') }}"><br>
+        <label for="spotify_client_secret">Client Secret:</label>
+        <input type="text" id="spotify_client_secret" name="spotify_client_secret" value="{{ config.get('Spotify', {}).get('client_secret', '') }}"><br>
+
+        <input type="submit" value="Save Configuration">
+    </form>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Edit User{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Edit User</h2>
+    <form method="POST" action="{{ url_for('admin_routes.edit_user', user_id=user.id) }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        
+        <div class="form-group mb-3">
+            <label for="username">Username</label>
+            <input type="text" class="form-control" id="username" name="username" value="{{ user.username }}" required>
+        </div>
+        
+        <div class="form-group mb-3">
+            <label for="password">Password (leave blank to keep current password)</label>
+            <input type="password" class="form-control" id="password" name="password">
+        </div>
+        
+        <div class="form-group mb-3">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" name="email" value="{{ user.email }}" required>
+        </div>
+        
+        <div class="form-group mb-3">
+            <label for="role">Role</label>
+            <select class="form-control" id="role" name="role" required>
+                <option value="User" {% if user.role == 'User' %}selected{% endif %}>User</option>
+                <option value="Admin" {% if user.role == 'Admin' %}selected{% endif %}>Admin</option>
+            </select>
+        </div>
+        
+        <div class="form-group mb-3">
+            <label for="status">Status</label>
+            <select class="form-control" id="status" name="status" required>
+                <option value="Active" {% if user.status == 'Active' %}selected{% endif %}>Active</option>
+                <option value="Inactive" {% if user.status == 'Inactive' %}selected{% endif %}>Inactive</option>
+            </select>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Update User</button>
+    </form>
+</div>
+{% endblock %}
