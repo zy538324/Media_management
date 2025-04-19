@@ -33,13 +33,11 @@ def create_app():
 
     # Instantiate and load the configuration
     config = Config()
-    db_username = config.DB_USERNAME
-    db_password = config.DB_PASSWORD
-    db_host = config.DB_HOST
-    db_name = config.DB_NAME
-    app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://{db_username}:{db_password}@{db_host}/{db_name}"
+    config = Config()
+    app.config['SQLALCHEMY_DATABASE_URI'] = config.SQLALCHEMY_DATABASE_URI
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = config.SQLALCHEMY_TRACK_MODIFICATIONS
     app.config['SECRET_KEY'] = config.SECRET_KEY
+    
 
     # Initialize extensions
     db.init_app(app)
