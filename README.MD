@@ -256,7 +256,12 @@ python init_db.py
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License - see the LICENSE file for details. 
+
+
+
+## Disclaimer
+I take no responsibility for the usage of this I have built this purely as an educational project, any usage of this application is down to the end user.
 
 ---
 
