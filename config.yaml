@@ -2,22 +2,31 @@ Database:
   path: media_management.db
   track_modifications: false
 Jackett:
-  api_key: 
+  api_key:
   categories:
     Movies: '2000'
     Music: '3000'
     TV: '5000'
   server_url: http://<ip>:9117/
 Jellyfin:
-  api_key: 
+  api_key:
   server_url: http://<ip>:8096
-Secret_key: 
+Secret_key:
 Spotify:
-  client_id: 
-  client_secret: 
+  client_id:
+  client_secret:
 TMDb:
-  api_key: 
+  api_key:
 qBittorrent:
   host: http://<ip>:8080
   password: admin
   username: admin
+Sonarr:
+  api_url: http://<sonarr_ip_or_hostname>:8989
+  api_key: YOUR_SONARR_API_KEY
+Radarr:
+  api_url: http://<radarr_ip_or_hostname>:7878
+  api_key: YOUR_RADARR_API_KEY
+Lidarr:
+  api_url: http://<lidarr_ip_or_hostname>:8686
+  api_key: YOUR_LIDARR_API_KEY
