@@ -35,3 +35,15 @@ class Config:
 
         # Ensure the correct key casing for SECRET_KEY
         self.SECRET_KEY = config.get('Secret_key', 'default_secret_key')
+
+        # Sonarr Configuration
+        self.SONARR_API_URL = config.get('Sonarr', {}).get('api_url', '')
+        self.SONARR_API_KEY = config.get('Sonarr', {}).get('api_key', '')
+
+        # Radarr Configuration
+        self.RADARR_API_URL = config.get('Radarr', {}).get('api_url', '')
+        self.RADARR_API_KEY = config.get('Radarr', {}).get('api_key', '')
+
+        # Lidarr Configuration
+        self.LIDARR_API_URL = config.get('Lidarr', {}).get('api_url', '')
+        self.LIDARR_API_KEY = config.get('Lidarr', {}).get('api_key', '')
