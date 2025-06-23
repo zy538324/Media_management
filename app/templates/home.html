@@ -3,6 +3,14 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-<h2>Welcome to Your Media Management System</h2>
-<p>Manage your media requests, track downloads, and more.</p>
+<div class="container py-5"> <!-- Add padding to the container -->
+    <div class="p-5 mb-4 bg-body-tertiary rounded-3 shadow-sm"> <!-- Jumbotron-like styling using BS5 utilities -->
+        <div class="container-fluid py-5 text-center"> <!-- Inner container for text centering and padding -->
+            <h1 class="display-5 fw-bold">Welcome to Your Media Management System</h1>
+            <p class="fs-4 col-md-8 mx-auto">Manage your media requests, track downloads, discover new content, and more. Get started by exploring the sections through the navigation menu.</p>
+            <!-- Optional: Add a button if there's a primary call to action -->
+            <!-- <a class="btn btn-lg mt-3" href="{{ url_for('web_routes.add_request') }}">Make a Request</a> -->
+        </div>
+    </div>
+</div>
 {% endblock %}
