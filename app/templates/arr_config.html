@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Arr Configuration{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <h1 class="mb-4">Sonarr, Radarr, & Lidarr Configuration</h1>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="{{ url_for('config.arr_config') }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+        <div class="card p-3 mb-4 shadow-sm">
+            <h2 class="mb-3 fs-4">Sonarr Configuration</h2>
+            <div class="mb-3">
+                <label for="sonarr_api_url" class="form-label">API URL:</label>
+                <input type="text" class="form-control" id="sonarr_api_url" name="sonarr_api_url" value="{{ arr_config.get('Sonarr', {}).get('api_url', '') }}" placeholder="e.g., http://localhost:8989">
+            </div>
+            <div class="mb-3">
+                <label for="sonarr_api_key" class="form-label">API Key:</label>
+                <input type="text" class="form-control" id="sonarr_api_key" name="sonarr_api_key" value="{{ arr_config.get('Sonarr', {}).get('api_key', '') }}">
+            </div>
+        </div>
+
+        <div class="card p-3 mb-4 shadow-sm">
+            <h2 class="mb-3 fs-4">Radarr Configuration</h2>
+            <div class="mb-3">
+                <label for="radarr_api_url" class="form-label">API URL:</label>
+                <input type="text" class="form-control" id="radarr_api_url" name="radarr_api_url" value="{{ arr_config.get('Radarr', {}).get('api_url', '') }}" placeholder="e.g., http://localhost:7878">
+            </div>
+            <div class="mb-3">
+                <label for="radarr_api_key" class="form-label">API Key:</label>
+                <input type="text" class="form-control" id="radarr_api_key" name="radarr_api_key" value="{{ arr_config.get('Radarr', {}).get('api_key', '') }}">
+            </div>
+        </div>
+
+        <div class="card p-3 mb-4 shadow-sm">
+            <h2 class="mb-3 fs-4">Lidarr Configuration</h2>
+            <div class="mb-3">
+                <label for="lidarr_api_url" class="form-label">API URL:</label>
+                <input type="text" class="form-control" id="lidarr_api_url" name="lidarr_api_url" value="{{ arr_config.get('Lidarr', {}).get('api_url', '') }}" placeholder="e.g., http://localhost:8686">
+            </div>
+            <div class="mb-3">
+                <label for="lidarr_api_key" class="form-label">API Key:</label>
+                <input type="text" class="form-control" id="lidarr_api_key" name="lidarr_api_key" value="{{ arr_config.get('Lidarr', {}).get('api_key', '') }}">
+            </div>
+        </div>
+
+        <button type="submit" class="btn mt-3">Save *arr Settings</button>
+    </form>
+</div>
+{% endblock %}
