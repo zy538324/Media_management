@@ -1,5 +1,37 @@
 {% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %} {# Updated title #}
+
 {% block content %}
-<h1>Welcome to Media Management Dashboard</h1>
-<p>Monitor your media, requests, and download status here.</p>
+<div class="container py-5">
+    <div class="p-5 mb-4 bg-body-tertiary rounded-3 shadow-sm">
+        <div class="container-fluid py-5 text-center">
+            <h1 class="display-5 fw-bold">Media Management Dashboard</h1> {# Updated heading #}
+            <p class="fs-4 col-md-8 mx-auto">Monitor your media, requests, and download status here. Use the menu to navigate to different sections.</p> {# Updated paragraph #}
+            <!-- Optional: Add relevant dashboard-specific call-to-action buttons if desired in future -->
+            <!-- e.g., <a class="btn btn-lg mt-3 me-2" href="{{ url_for('web_routes.add_request') }}">New Request</a> -->
+            <!-- <a class="btn btn-secondary btn-lg mt-3" href="{{ url_for('web_routes.requests') }}">View Requests</a> -->
+        </div>
+    </div>
+
+    <!-- Placeholder for potential future dashboard widgets/sections -->
+    <!-- <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Recent Requests</h5>
+                    <p class="card-text">Content for recent requests...</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Active Downloads</h5>
+                    <p class="card-text">Content for active downloads...</p>
+                </div>
+            </div>
+        </div>
+    </div> -->
+</div>
 {% endblock %}
