@@ -1,17 +1,22 @@
 import logging
+import json
 from app.models import Request, db
 from app.helpers.tmdb_helper import TMDbHelper
 from app.helpers.sonarr_helper import SonarrHelper
 from app.helpers.radarr_helper import RadarrHelper
 from app.helpers.lidarr_helper import LidarrHelper
-# Removed JackettHelper, QBittorrentHelper, normalize_media_type, get_download_path imports
+from app.helpers.media_classifier import MediaClassifier, MediaService, MediaType
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
 
 class RequestProcessor:
     @staticmethod
     def process_pending_requests():
-        """Process pending requests using TMDb and appropriate *Arr service."""
-        logging.info("Starting request processing with *Arr services.")
+        """Process pending requests using intelligent media classification and appropriate *Arr service."""
+        logging.info("Starting intelligent request processing with *Arr services.")
 
+        classifier = MediaClassifier()
         tmdb_helper = TMDbHelper()
         sonarr_helper = SonarrHelper()
         radarr_helper = RadarrHelper()
@@ -21,109 +26,126 @@ class RequestProcessor:
         if not pending_requests:
             logging.info("No pending requests to process.")
             return
+        
         logging.info(f"Found {len(pending_requests)} pending requests.")
 
         for req in pending_requests:
-            validated_media = None
-            # Default to user's title if TMDb fails or is skipped (for music)
-            validated_title = req.title
-            tmdb_id = None
-            tvdb_id = None # For series
-
             try:
                 logging.info(f"Processing request ID {req.id}: Title='{req.title}', Type='{req.media_type}'")
 
-                # TMDb validation is primarily for Movies and TV Shows to get IDs and standardized titles.
-                # For Music, Lidarr typically uses MusicBrainz IDs, so TMDb might be less critical.
-                # The subtask implies tmdb_helper.get_media_details might be used for all types initially.
+                # If request already has classification data, use it
+                if req.is_classified() and req.arr_service:
+                    logging.info(f"Request ID {req.id} already classified as {req.arr_service} (confidence: {req.confidence_score:.2f})")
+                    best_match = type('obj', (object,), {
+                        'service': MediaService(req.arr_service),
+                        'media_type': MediaType(req.media_type.lower()),
+                        'external_id': req.external_id,
+                        'title': req.title
+                    })()
+                else:
+                    # Use intelligent classifier to determine media type and service
+                    best_match = classifier.get_best_match(req.title)
+                    
+                    if not best_match:
+                        logging.warning(f"Classification failed for request ID {req.id}: '{req.title}'. Setting status to Failed (Classification).")
+                        req.status = 'Failed (Classification)'
+                        db.session.commit()
+                        continue
 
-                # Perform TMDb validation for all types first as per original logic structure
-                # This also helps standardize titles and get TMDB IDs if available.
-                validated_media = tmdb_helper.get_media_details(req.title, req.media_type.lower())
-
-                if not validated_media:
-                    logging.warning(f"TMDb validation failed for request ID {req.id}: {req.title} (Type: {req.media_type}). Setting status to Failed (TMDb).")
-                    req.status = 'Failed (TMDb)'
+                    # Store classification metadata
+                    req.arr_service = best_match.service.value
+                    req.external_id = best_match.external_id
+                    req.confidence_score = best_match.confidence
+                    req.media_type = best_match.media_type.value
+                    
+                    # Store full classification data as JSON for debugging
+                    classification_metadata = {
+                        'title': best_match.title,
+                        'year': best_match.year,
+                        'description': best_match.description,
+                        'poster_url': best_match.poster_url,
+                        'additional_data': best_match.additional_data
+                    }
+                    req.classification_data = json.dumps(classification_metadata)
+                    
                     db.session.commit()
-                    continue
+                    
+                    logging.info(f"Classified request ID {req.id} as '{best_match.title}' → {best_match.service.value} (confidence: {best_match.confidence:.2f})")
 
-                # Extract common details if validation passed
-                tmdb_id = validated_media.get('id')
-                # Title: Movies use 'title', TV shows use 'name'. Fallback to req.title if specific field not found.
-                if req.media_type.lower() == 'movie':
-                    validated_title = validated_media.get('title', req.title)
-                elif req.media_type.lower() in ['tv show', 'series', 'tv']:
-                    validated_title = validated_media.get('name', req.title)
-                    external_ids = validated_media.get('external_ids', {})
-                    tvdb_id = external_ids.get('tvdb_id') if isinstance(external_ids, dict) else None
-                    logging.info(f"TMDb details for TV Series '{validated_title}' (Request ID {req.id}): TMDB ID={tmdb_id}, TVDB ID={tvdb_id}")
-                else: # For music and other types, use 'name' or 'title' field from TMDb if available
-                    validated_title = validated_media.get('name') or validated_media.get('title', req.title)
-                    logging.info(f"TMDb details for '{validated_title}' (Request ID {req.id}): TMDB ID={tmdb_id}")
-
-
-                media_type_lower = req.media_type.lower()
+                # Route to appropriate service based on classification
                 success = False
-                new_status = req.status # Default to current status
+                new_status = req.status
 
-                if media_type_lower == 'movie':
-                    if not tmdb_id:
-                        logging.warning(f"Missing TMDB ID for movie: {validated_title} (Request ID: {req.id}). Status: Failed (Missing TMDB ID)")
+                if best_match.service == MediaService.RADARR:
+                    # Process movie with Radarr
+                    if not best_match.external_id:
+                        logging.warning(f"Missing TMDB ID for movie: {req.title} (Request ID: {req.id})")
                         new_status = 'Failed (Missing TMDB ID)'
                     else:
-                        logging.info(f"Processing MOVIE request ID {req.id}: {validated_title} (TMDB ID: {tmdb_id}) with Radarr.")
-                        if radarr_helper.add_movie(tmdb_id=tmdb_id, title=validated_title):
+                        logging.info(f"Adding movie to Radarr: '{req.title}' (TMDB ID: {best_match.external_id})")
+                        if radarr_helper.add_movie(tmdb_id=best_match.external_id, title=req.title):
                             new_status = 'SentToRadarr'
                             success = True
+                            logging.info(f"Successfully added to Radarr: {req.title}")
                         else:
-                            logging.error(f"Radarr failed to add movie: {validated_title} (Request ID: {req.id})")
+                            logging.error(f"Radarr failed to add movie: {req.title} (Request ID: {req.id})")
                             new_status = 'Failed (Radarr)'
 
-                elif media_type_lower in ['tv show', 'series', 'tv']:
-                    # Sonarr v3+ can often work with TMDB ID for series lookup if TVDB ID is not present
-                    series_id_to_use = tvdb_id if tvdb_id else tmdb_id
-                    id_type = "TVDB ID" if tvdb_id else "TMDB ID"
-
-                    if not series_id_to_use:
-                        logging.warning(f"Missing TVDB ID or TMDB ID for series: {validated_title} (Request ID: {req.id}). Status: Failed (Missing Series ID)")
-                        new_status = 'Failed (Missing Series ID)'
+                elif best_match.service == MediaService.SONARR:
+                    # Process TV show with Sonarr
+                    tvdb_id = best_match.external_id
+                    
+                    # If we have TMDB ID but no TVDB ID, try to get TVDB ID
+                    if not tvdb_id and best_match.additional_data and best_match.additional_data.get('tmdb_id'):
+                        tmdb_id = best_match.additional_data['tmdb_id']
+                        tvdb_id = classifier._get_tvdb_id(int(tmdb_id))
+                        if tvdb_id:
+                            req.external_id = tvdb_id
+                            db.session.commit()
+                    
+                    if not tvdb_id:
+                        logging.warning(f"Missing TVDB ID for series: {req.title} (Request ID: {req.id})")
+                        new_status = 'Failed (Missing TVDB ID)'
                     else:
-                        logging.info(f"Processing TV request ID {req.id}: {validated_title} ({id_type}: {series_id_to_use}) with Sonarr.")
-                        # SonarrHelper's add_series was defined with tvdb_id as the primary parameter.
-                        # If tvdb_id is None, we are passing tmdb_id to this parameter.
-                        # Ensure SonarrHelper.add_series can correctly interpret this (e.g. by checking what type of ID it is, or if Sonarr API can handle TMDB ID for tvdb_id field)
-                        # For this subtask, we assume it's handled or Sonarr API is flexible.
-                        if sonarr_helper.add_series(tvdb_id=series_id_to_use, title=validated_title):
+                        logging.info(f"Adding series to Sonarr: '{req.title}' (TVDB ID: {tvdb_id})")
+                        if sonarr_helper.add_series(tvdb_id=tvdb_id, title=req.title):
                             new_status = 'SentToSonarr'
                             success = True
+                            logging.info(f"Successfully added to Sonarr: {req.title}")
                         else:
-                            logging.error(f"Sonarr failed to add series: {validated_title} (Request ID: {req.id})")
+                            logging.error(f"Sonarr failed to add series: {req.title} (Request ID: {req.id})")
                             new_status = 'Failed (Sonarr)'
 
-                elif media_type_lower in ['music', 'album', 'artist']:
-                    logging.info(f"Processing MUSIC request ID {req.id}: {validated_title} with Lidarr.")
-                    # LidarrHelper.add_artist takes artist_name and musicbrainz_id.
-                    # We don't have musicbrainz_id from TMDb typically. A real flow might search Lidarr first.
-                    # For now, we pass validated_title (could be album or artist title) as artist_name and no MBID.
-                    # This is a known simplification from the subtask description.
-                    if lidarr_helper.add_artist(artist_name=validated_title, musicbrainz_id=None): # musicbrainz_id is not available here
+                elif best_match.service == MediaService.LIDARR:
+                    # Process music with Lidarr
+                    musicbrainz_id = best_match.external_id
+                    artist_name = req.title
+                    
+                    # Extract artist name from additional data if available
+                    if best_match.additional_data:
+                        if best_match.additional_data.get('type') == 'album' and best_match.additional_data.get('artist'):
+                            artist_name = best_match.additional_data['artist']
+                    
+                    logging.info(f"Adding artist to Lidarr: '{artist_name}' (MusicBrainz ID: {musicbrainz_id or 'None'})")
+                    if lidarr_helper.add_artist(artist_name=artist_name, musicbrainz_id=musicbrainz_id):
                         new_status = 'SentToLidarr'
                         success = True
+                        logging.info(f"Successfully added to Lidarr: {artist_name}")
                     else:
-                        logging.error(f"Lidarr failed to add music: {validated_title} (Request ID: {req.id})")
+                        logging.error(f"Lidarr failed to add music: {req.title} (Request ID: {req.id})")
                         new_status = 'Failed (Lidarr)'
 
                 else:
-                    logging.warning(f"Unsupported media type: {req.media_type} for request ID {req.id}: {req.title}. Status: Failed (Unsupported Type)")
-                    new_status = 'Failed (Unsupported Type)'
+                    logging.warning(f"Unknown service: {best_match.service} for request ID {req.id}")
+                    new_status = 'Failed (Unknown Service)'
 
                 req.status = new_status
                 db.session.commit()
 
                 if success:
-                    logging.info(f"Successfully processed request ID {req.id} for '{validated_title}'. Status: {new_status}")
+                    logging.info(f"✓ Request ID {req.id} processed successfully: '{req.title}' → {best_match.service.value}")
                 else:
-                    logging.info(f"Finished processing request ID {req.id} for '{validated_title}' with status: {new_status}")
+                    logging.info(f"✗ Request ID {req.id} failed with status: {new_status}")
 
             except Exception as e:
                 db.session.rollback()
@@ -132,3 +154,32 @@ class RequestProcessor:
                 db.session.commit()
 
         logging.info("Request processing cycle completed.")
+
+    @staticmethod
+    def classify_request(title: str):
+        """
+        Classify a media request and return all potential matches.
+        Useful for disambiguation UI.
+        
+        Args:
+            title: Media title to classify
+            
+        Returns:
+            List of MediaMatch objects with classification results
+        """
+        classifier = MediaClassifier()
+        return classifier.classify(title, limit=10)
+
+    @staticmethod
+    def check_ambiguity(title: str) -> bool:
+        """
+        Check if a title has ambiguous classification across multiple services.
+        
+        Args:
+            title: Media title to check
+            
+        Returns:
+            True if disambiguation is needed
+        """
+        classifier = MediaClassifier()
+        return classifier.has_ambiguity(title)
