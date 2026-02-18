@@ -32,9 +32,35 @@ class Request(db.Model):
     priority = db.Column(db.String(10), default='Medium')  # SQLite doesn't support ENUM
     requested_at = db.Column(db.DateTime, default=datetime.utcnow)
     last_status_update = db.Column(db.DateTime, onupdate=datetime.utcnow)
+    
+    # Classification metadata fields
+    arr_service = db.Column(db.String(20))  # 'sonarr', 'radarr', or 'lidarr'
+    arr_id = db.Column(db.String(100))  # ID in the target *arr service
+    external_id = db.Column(db.String(100))  # TMDB/TVDB/MusicBrainz ID
+    confidence_score = db.Column(db.Float)  # Classification confidence (0.0-1.0)
+    classification_data = db.Column(db.Text)  # JSON string with full classification metadata
 
     # Relationships
     user = db.relationship('User', back_populates='requests')
+
+    def get_target_service(self):
+        """Get the target *arr service based on media type."""
+        if self.arr_service:
+            return self.arr_service
+        
+        # Fallback to media_type mapping
+        media_type_lower = self.media_type.lower()
+        if media_type_lower == 'movie':
+            return 'radarr'
+        elif media_type_lower in ['tv show', 'series', 'tv']:
+            return 'sonarr'
+        elif media_type_lower in ['music', 'album', 'artist']:
+            return 'lidarr'
+        return None
+
+    def is_classified(self):
+        """Check if request has been classified by the intelligence engine."""
+        return self.arr_service is not None and self.confidence_score is not None
 
 
 class Download(db.Model):
