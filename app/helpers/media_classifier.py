@@ -1,7 +1,7 @@
 import logging
 import requests
-from typing import Dict, List, Optional, Tuple
-from dataclasses import dataclass
+from typing import Dict, List, Optional
+from dataclasses import dataclass, asdict
 from enum import Enum
 from config import Config
 
@@ -28,8 +28,8 @@ class MediaType(Enum):
 class MediaMatch:
     """Represents a potential media match with classification metadata."""
     title: str
-    media_type: MediaType
-    service: MediaService
+    media_type: str  # Changed from MediaType to str for JSON serialization
+    service: str  # Changed from MediaService to str for JSON serialization
     confidence: float
     external_id: Optional[str] = None
     year: Optional[int] = None
@@ -39,27 +39,14 @@ class MediaMatch:
 
     def to_dict(self):
         """Convert to dictionary for JSON serialization."""
-        return {
-            'title': self.title,
-            'media_type': self.media_type.value,
-            'service': self.service.value,
-            'confidence': self.confidence,
-            'external_id': self.external_id,
-            'year': self.year,
-            'description': self.description,
-            'poster_url': self.poster_url,
-            'additional_data': self.additional_data
-        }
+        return asdict(self)
 
     def __repr__(self):
-        return f"MediaMatch('{self.title}', {self.media_type.value}, confidence={self.confidence:.2f})"
+        return f"MediaMatch('{self.title}', {self.media_type}, confidence={self.confidence:.2f})"
 
 
 class MediaClassifier:
-    """
-    Intelligent media classification engine that determines whether user requests
-    should route to Sonarr (TV), Radarr (Movies), or Lidarr (Music).
-    """
+    """Intelligent media classification engine for *arr service routing."""
 
     def __init__(self):
         config = Config()
@@ -73,18 +60,12 @@ class MediaClassifier:
         
         if not self.tmdb_api_key:
             logging.warning("TMDb API key not configured. Movie/TV classification will fail.")
-        
-        if not self.spotify_client_id or not self.spotify_client_secret:
-            logging.warning("Spotify credentials not configured. Music classification via Spotify will be limited.")
 
     def classify(self, query: str, limit: int = 10) -> List[MediaMatch]:
-        """
-        Classify a user's media request and return ranked potential matches.
-        """
+        """Classify a user's media request and return ranked potential matches."""
         logging.info(f"Classifying media request: '{query}'")
         
         all_matches = []
-        
         all_matches.extend(self._search_tmdb_movies(query))
         all_matches.extend(self._search_tmdb_tv(query))
         all_matches.extend(self._search_music(query))
@@ -108,7 +89,7 @@ class MediaClassifier:
         return None
 
     def has_ambiguity(self, query: str, threshold: float = 0.15) -> bool:
-        """Determine if a query has multiple plausible matches across different services."""
+        """Determine if query has multiple plausible matches across different services."""
         matches = self.classify(query, limit=5)
         
         if len(matches) < 2:
@@ -148,8 +129,8 @@ class MediaClassifier:
                 
                 matches.append(MediaMatch(
                     title=result.get("title", "Unknown"),
-                    media_type=MediaType.MOVIE,
-                    service=MediaService.RADARR,
+                    media_type=MediaType.MOVIE.value,
+                    service=MediaService.RADARR.value,
                     confidence=confidence,
                     external_id=str(result.get("id")),
                     year=self._extract_year(result.get("release_date")),
@@ -185,13 +166,12 @@ class MediaClassifier:
             matches = []
             for result in data.get("results", [])[:5]:
                 confidence = self._calculate_tv_confidence(result, query)
-                
                 tvdb_id = self._get_tvdb_id(result.get("id"))
                 
                 matches.append(MediaMatch(
                     title=result.get("name", "Unknown"),
-                    media_type=MediaType.TV_SERIES,
-                    service=MediaService.SONARR,
+                    media_type=MediaType.TV_SERIES.value,
+                    service=MediaService.SONARR.value,
                     confidence=confidence,
                     external_id=tvdb_id or str(result.get("id")),
                     year=self._extract_year(result.get("first_air_date")),
@@ -233,11 +213,7 @@ class MediaClassifier:
             
             url = "https://api.spotify.com/v1/search"
             headers = {"Authorization": f"Bearer {self.spotify_token}"}
-            params = {
-                "q": query,
-                "type": "artist,album",
-                "limit": 5
-            }
+            params = {"q": query, "type": "artist,album", "limit": 5}
             
             response = requests.get(url, headers=headers, params=params, timeout=10)
             
@@ -256,8 +232,8 @@ class MediaClassifier:
                 
                 matches.append(MediaMatch(
                     title=artist.get("name", "Unknown"),
-                    media_type=MediaType.MUSIC,
-                    service=MediaService.LIDARR,
+                    media_type=MediaType.MUSIC.value,
+                    service=MediaService.LIDARR.value,
                     confidence=confidence,
                     external_id=None,
                     description=f"Artist with {artist.get('followers', {}).get('total', 0):,} followers",
@@ -274,18 +250,14 @@ class MediaClassifier:
                 
                 matches.append(MediaMatch(
                     title=f"{album.get('name')} - {album.get('artists', [{}])[0].get('name', 'Unknown')}",
-                    media_type=MediaType.MUSIC,
-                    service=MediaService.LIDARR,
+                    media_type=MediaType.MUSIC.value,
+                    service=MediaService.LIDARR.value,
                     confidence=confidence * 0.95,
                     external_id=None,
                     year=self._extract_year(album.get("release_date")),
                     description=f"Album by {album.get('artists', [{}])[0].get('name', 'Unknown')}",
                     poster_url=album.get("images", [{}])[0].get("url") if album.get("images") else None,
-                    additional_data={
-                        "spotify_id": album.get("id"),
-                        "type": "album",
-                        "artist": album.get('artists', [{}])[0].get('name')
-                    }
+                    additional_data={"spotify_id": album.get("id"), "type": "album"}
                 ))
             
             return matches
@@ -298,12 +270,8 @@ class MediaClassifier:
         """Search MusicBrainz for artists."""
         try:
             url = f"{self.musicbrainz_base_url}/artist"
-            headers = {"User-Agent": "MediaManagementSystem/1.0 (https://github.com/zy538324/Media_management)"}
-            params = {
-                "query": query,
-                "fmt": "json",
-                "limit": 3
-            }
+            headers = {"User-Agent": "MediaManagementSystem/1.0"}
+            params = {"query": query, "fmt": "json", "limit": 3}
             
             response = requests.get(url, headers=headers, params=params, timeout=10)
             response.raise_for_status()
@@ -315,16 +283,12 @@ class MediaClassifier:
                 
                 matches.append(MediaMatch(
                     title=artist.get("name", "Unknown"),
-                    media_type=MediaType.MUSIC,
-                    service=MediaService.LIDARR,
+                    media_type=MediaType.MUSIC.value,
+                    service=MediaService.LIDARR.value,
                     confidence=confidence,
                     external_id=artist.get("id"),
                     description=f"{artist.get('type', 'Artist')} - {artist.get('disambiguation', '')}".strip(" -"),
-                    additional_data={
-                        "country": artist.get("country"),
-                        "type": artist.get("type"),
-                        "score": artist.get("score", 0)
-                    }
+                    additional_data={"country": artist.get("country"), "score": artist.get("score", 0)}
                 ))
             
             return matches
@@ -342,14 +306,13 @@ class MediaClassifier:
             
             response = requests.post(url, data=data, auth=auth, timeout=10)
             response.raise_for_status()
-            
             return response.json().get("access_token")
         except Exception as e:
             logging.error(f"Error getting Spotify token: {e}")
             return None
 
     def _get_tvdb_id(self, tmdb_id: int) -> Optional[str]:
-        """Fetch TVDB ID from TMDb external IDs endpoint."""
+        """Fetch TVDB ID from TMDb."""
         if not self.tmdb_api_key or not tmdb_id:
             return None
         
@@ -365,11 +328,10 @@ class MediaClassifier:
             return str(tvdb_id) if tvdb_id else None
             
         except Exception as e:
-            logging.error(f"Error fetching TVDB ID for TMDB ID {tmdb_id}: {e}")
+            logging.error(f"Error fetching TVDB ID: {e}")
             return None
 
     def _calculate_movie_confidence(self, result: Dict, query: str) -> float:
-        """Calculate confidence score for a movie result."""
         score = 0.0
         query_lower = query.lower()
         title_lower = result.get("title", "").lower()
@@ -379,8 +341,7 @@ class MediaClassifier:
         elif query_lower in title_lower or title_lower in query_lower:
             score += 0.3
         
-        popularity = result.get("popularity", 0)
-        score += min(0.3, popularity / 1000)
+        score += min(0.3, result.get("popularity", 0) / 1000)
         
         if result.get("poster_path"):
             score += 0.1
@@ -392,7 +353,6 @@ class MediaClassifier:
         return min(1.0, score)
 
     def _calculate_tv_confidence(self, result: Dict, query: str) -> float:
-        """Calculate confidence score for a TV show result."""
         score = 0.0
         query_lower = query.lower()
         name_lower = result.get("name", "").lower()
@@ -402,8 +362,7 @@ class MediaClassifier:
         elif query_lower in name_lower or name_lower in query_lower:
             score += 0.3
         
-        popularity = result.get("popularity", 0)
-        score += min(0.3, popularity / 1000)
+        score += min(0.3, result.get("popularity", 0) / 1000)
         
         if result.get("poster_path"):
             score += 0.1
@@ -415,7 +374,6 @@ class MediaClassifier:
         return min(1.0, score)
 
     def _calculate_music_confidence(self, result: Dict, query: str, result_type: str) -> float:
-        """Calculate confidence score for Spotify music results."""
         score = 0.0
         query_lower = query.lower()
         name_lower = result.get("name", "").lower()
@@ -425,8 +383,7 @@ class MediaClassifier:
         elif query_lower in name_lower or name_lower in query_lower:
             score += 0.3
         
-        popularity = result.get("popularity", 0)
-        score += min(0.3, popularity / 300)
+        score += min(0.3, result.get("popularity", 0) / 300)
         
         if result_type == "artist":
             score += 0.1
@@ -437,7 +394,6 @@ class MediaClassifier:
         return min(1.0, score)
 
     def _calculate_musicbrainz_confidence(self, result: Dict, query: str) -> float:
-        """Calculate confidence score for MusicBrainz results."""
         score = 0.0
         query_lower = query.lower()
         name_lower = result.get("name", "").lower()
@@ -456,13 +412,11 @@ class MediaClassifier:
         return min(1.0, score)
 
     def _build_tmdb_poster_url(self, poster_path: Optional[str]) -> Optional[str]:
-        """Build full poster URL from TMDb poster path."""
         if not poster_path:
             return None
         return f"https://image.tmdb.org/t/p/w500{poster_path}"
 
     def _extract_year(self, date_str: Optional[str]) -> Optional[int]:
-        """Extract year from date string."""
         if not date_str:
             return None
         try:
