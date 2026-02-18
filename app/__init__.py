@@ -1,6 +1,7 @@
 from flask import Flask, current_app
 from flask_migrate import Migrate  # Import Flask-Migrate for database migrations
 from flask_wtf.csrf import CSRFProtect
+
 from apscheduler.schedulers.background import BackgroundScheduler  # Import APScheduler
 import logging
 from logging.handlers import RotatingFileHandler
@@ -16,12 +17,13 @@ from config import Config
 # Import db and login_manager from extensions
 from app.extensions import db, login_manager
 
+
 # Import routes
 from app.routes.web_routes import generate_recommendations, process_requests  # Adjust import paths if needed
 from app.routes.request_processing_routes import request_processing_bp
 from app.routes.config_routes import config_bp  # Import the new config route
 from app.routes.admin_routes import admin_bp  # Import the admin route
-
+from app.routes.unified_requests import unified_requests_bp
 csrf = CSRFProtect()
 migrate = Migrate()  # Initialize Flask-Migrate
 
@@ -90,6 +92,7 @@ def create_app():
         app.register_blueprint(request_processing_bp)
         app.register_blueprint(config_bp, url_prefix='/config')  # Register the new config route
         app.register_blueprint(admin_bp, url_prefix='/admin')  # Register the admin route
+        app.register_blueprint(unified_requests_bp)
 
         # Create database tables if they don't exist
         db.create_all()
@@ -109,3 +112,4 @@ def configure_logging():
             RotatingFileHandler(LOG_FILE, maxBytes=5 * 1024 * 1024, backupCount=5),  # Rotating logs
         ],
     )
+
