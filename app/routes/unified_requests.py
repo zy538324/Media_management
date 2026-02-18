@@ -1,74 +1,52 @@
-from flask import Blueprint, render_template, request, jsonify, redirect, url_for, flash
+from flask import Blueprint, request, jsonify, render_template, redirect, url_for, flash
 from flask_login import login_required, current_user
 from app.models import Request as MediaRequest, db
-from app.helpers.media_classifier import MediaClassifier
+from app.helpers.media_classifier import MediaClassifier, MediaService, MediaType
+from app.helpers.request_processor import RequestProcessor
 import logging
 import json
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(level=logging.INFO)
 
-unified_requests_bp = Blueprint('unified_requests', __name__, url_prefix='/unified')
+unified_requests_bp = Blueprint('unified_requests', __name__)
 
 
-@unified_requests_bp.route('/request', methods=['GET'])
+@unified_requests_bp.route('/request/unified', methods=['GET'])
 @login_required
-def request_page():
-    """Render the unified media request page."""
+def unified_request_page():
+    """Unified request page where users can search and request any media type."""
     return render_template('unified_request.html')
 
 
-@unified_requests_bp.route('/classify', methods=['POST'])
+@unified_requests_bp.route('/api/classify', methods=['POST'])
 @login_required
 def classify_media():
     """
-    AJAX endpoint to classify a media title and return potential matches.
-    Used for real-time search as user types.
-    
-    Request body:
-        {"title": "search query"}
-    
-    Response:
-        {
-            "success": true,
-            "matches": [
-                {
-                    "title": "Dexter",
-                    "media_type": "tv",
-                    "service": "sonarr",
-                    "confidence": 0.95,
-                    "year": 2006,
-                    "description": "...",
-                    "poster_url": "...",
-                    "external_id": "..."
-                }
-            ],
-            "needs_disambiguation": false
-        }
+    API endpoint to classify media and return potential matches.
+    Used for real-time search suggestions.
     """
     try:
         data = request.get_json()
-        title = data.get('title', '').strip()
+        query = data.get('query', '').strip()
         
-        if not title:
-            return jsonify({'success': False, 'error': 'Title is required'}), 400
-        
-        if len(title) < 2:
-            return jsonify({'success': False, 'error': 'Title too short'}), 400
+        if not query or len(query) < 2:
+            return jsonify({
+                'success': False,
+                'error': 'Query must be at least 2 characters'
+            }), 400
         
         classifier = MediaClassifier()
-        matches = classifier.classify(title, limit=10)
-        
-        # Check if disambiguation is needed
-        needs_disambiguation = classifier.has_ambiguity(title)
+        matches = classifier.classify(query, limit=10)
         
         # Convert matches to JSON-serializable format
-        matches_data = []
+        results = []
         for match in matches:
-            matches_data.append({
+            results.append({
                 'title': match.title,
                 'media_type': match.media_type.value,
                 'service': match.service.value,
-                'confidence': round(match.confidence, 3),
+                'service_display': _get_service_display_name(match.service.value),
+                'confidence': round(match.confidence, 2),
                 'year': match.year,
                 'description': match.description,
                 'poster_url': match.poster_url,
@@ -76,204 +54,220 @@ def classify_media():
                 'additional_data': match.additional_data
             })
         
+        # Check if disambiguation is needed
+        has_ambiguity = classifier.has_ambiguity(query)
+        
         return jsonify({
             'success': True,
-            'matches': matches_data,
-            'needs_disambiguation': needs_disambiguation,
-            'best_match': matches_data[0] if matches_data else None
+            'query': query,
+            'results': results,
+            'has_ambiguity': has_ambiguity,
+            'result_count': len(results)
         })
         
     except Exception as e:
-        logging.error(f"Error classifying media: {e}", exc_info=True)
-        return jsonify({'success': False, 'error': str(e)}), 500
+        logging.error(f"Classification API error: {e}", exc_info=True)
+        return jsonify({
+            'success': False,
+            'error': 'Classification failed. Please try again.'
+        }), 500
 
 
-@unified_requests_bp.route('/submit', methods=['POST'])
+@unified_requests_bp.route('/api/request/create', methods=['POST'])
 @login_required
-def submit_request():
+def create_unified_request():
     """
-    Submit a media request with classification data.
-    
-    Request body (form data or JSON):
-        {
-            "title": "Media title",
-            "match_index": 0,  # Optional: index of selected match from classification
-            "classification_data": {...}  # Full classification data
-        }
+    Create a new media request with intelligent classification.
+    Handles both auto-classified and manually selected requests.
     """
     try:
-        # Handle both form data and JSON
-        if request.is_json:
-            data = request.get_json()
-        else:
-            data = request.form.to_dict()
+        data = request.get_json()
         
+        # Validate required fields
         title = data.get('title', '').strip()
         if not title:
-            flash('Title is required', 'error')
-            return redirect(url_for('unified_requests.request_page'))
+            return jsonify({
+                'success': False,
+                'error': 'Title is required'
+            }), 400
         
-        # Get classification data if provided
-        classification_json = data.get('classification_data')
-        if classification_json:
-            if isinstance(classification_json, str):
-                classification = json.loads(classification_json)
-            else:
-                classification = classification_json
+        # Check for manual selection (from disambiguation)
+        selected_match = data.get('selected_match')
+        
+        if selected_match:
+            # User manually selected from disambiguation options
+            media_type = selected_match.get('media_type')
+            arr_service = selected_match.get('service')
+            external_id = selected_match.get('external_id')
+            confidence = selected_match.get('confidence', 1.0)
+            classification_data = json.dumps(selected_match)
         else:
-            # Perform classification if not provided
+            # Auto-classify
             classifier = MediaClassifier()
             best_match = classifier.get_best_match(title)
             
             if not best_match:
-                flash(f'Could not classify "{title}". Please try a different search term.', 'error')
-                return redirect(url_for('unified_requests.request_page'))
+                return jsonify({
+                    'success': False,
+                    'error': 'Could not classify media. Please try a more specific title.',
+                    'requires_disambiguation': True
+                }), 400
             
-            classification = {
+            # Check if disambiguation is needed
+            if classifier.has_ambiguity(title) and not data.get('skip_disambiguation'):
+                return jsonify({
+                    'success': False,
+                    'requires_disambiguation': True,
+                    'message': 'Multiple matches found. Please select the correct one.'
+                }), 200
+            
+            media_type = best_match.media_type.value
+            arr_service = best_match.service.value
+            external_id = best_match.external_id
+            confidence = best_match.confidence
+            classification_data = json.dumps({
                 'title': best_match.title,
-                'media_type': best_match.media_type.value,
-                'service': best_match.service.value,
-                'confidence': best_match.confidence,
                 'year': best_match.year,
                 'description': best_match.description,
                 'poster_url': best_match.poster_url,
-                'external_id': best_match.external_id,
                 'additional_data': best_match.additional_data
-            }
+            })
         
-        # Create request in database
+        # Create the request
         new_request = MediaRequest(
             user_id=current_user.id,
-            title=classification.get('title', title),
-            media_type=classification.get('media_type', 'unknown'),
+            title=title,
+            media_type=media_type,
             status='Pending',
             priority=data.get('priority', 'Medium'),
-            arr_service=classification.get('service'),
-            external_id=classification.get('external_id'),
-            confidence_score=classification.get('confidence'),
-            classification_data=json.dumps(classification)
+            arr_service=arr_service,
+            external_id=external_id,
+            confidence_score=confidence,
+            classification_data=classification_data
         )
         
         db.session.add(new_request)
         db.session.commit()
         
-        logging.info(f"Request created: ID={new_request.id}, Title='{new_request.title}', Service={new_request.arr_service}")
+        logging.info(f"User {current_user.username} created request: {title} → {arr_service} (confidence: {confidence:.2f})")
         
-        # Return appropriate response based on request type
-        if request.is_json:
-            return jsonify({
-                'success': True,
-                'request_id': new_request.id,
-                'message': f'Request submitted: {new_request.title} → {new_request.arr_service}'
-            })
-        else:
-            flash(f'Request submitted successfully: {new_request.title}', 'success')
-            return redirect(url_for('unified_requests.request_page'))
+        return jsonify({
+            'success': True,
+            'message': f'Request created successfully! {title} will be added to {_get_service_display_name(arr_service)}.',
+            'request_id': new_request.id,
+            'service': arr_service,
+            'confidence': round(confidence, 2)
+        })
         
     except Exception as e:
         db.session.rollback()
-        logging.error(f"Error submitting request: {e}", exc_info=True)
+        logging.error(f"Request creation error: {e}", exc_info=True)
+        return jsonify({
+            'success': False,
+            'error': 'Failed to create request. Please try again.'
+        }), 500
+
+
+@unified_requests_bp.route('/api/request/<int:request_id>/reclassify', methods=['POST'])
+@login_required
+def reclassify_request(request_id):
+    """
+    Reclassify an existing request.
+    Useful if classification was incorrect.
+    """
+    try:
+        media_request = MediaRequest.query.get_or_404(request_id)
         
-        if request.is_json:
-            return jsonify({'success': False, 'error': str(e)}), 500
+        # Check ownership (admins can reclassify anyone's requests)
+        if media_request.user_id != current_user.id and current_user.role != 'Admin':
+            return jsonify({
+                'success': False,
+                'error': 'Unauthorized'
+            }), 403
+        
+        data = request.get_json()
+        force_service = data.get('force_service')  # 'sonarr', 'radarr', or 'lidarr'
+        
+        if force_service:
+            # Manual override
+            media_request.arr_service = force_service
+            media_request.confidence_score = 1.0  # Manual selection = 100% confidence
+            media_request.status = 'Pending'  # Reset to pending for reprocessing
+            
+            service_to_type = {
+                'sonarr': 'tv',
+                'radarr': 'movie',
+                'lidarr': 'music'
+            }
+            media_request.media_type = service_to_type.get(force_service, media_request.media_type)
+            
+            db.session.commit()
+            
+            return jsonify({
+                'success': True,
+                'message': f'Request reclassified to {_get_service_display_name(force_service)}',
+                'service': force_service
+            })
         else:
-            flash(f'Error submitting request: {str(e)}', 'error')
-            return redirect(url_for('unified_requests.request_page'))
+            # Auto-reclassify
+            classifier = MediaClassifier()
+            best_match = classifier.get_best_match(media_request.title)
+            
+            if not best_match:
+                return jsonify({
+                    'success': False,
+                    'error': 'Reclassification failed'
+                }), 400
+            
+            media_request.arr_service = best_match.service.value
+            media_request.external_id = best_match.external_id
+            media_request.confidence_score = best_match.confidence
+            media_request.media_type = best_match.media_type.value
+            media_request.status = 'Pending'
+            
+            db.session.commit()
+            
+            return jsonify({
+                'success': True,
+                'message': 'Request reclassified successfully',
+                'service': best_match.service.value,
+                'confidence': round(best_match.confidence, 2)
+            })
+        
+    except Exception as e:
+        db.session.rollback()
+        logging.error(f"Reclassification error: {e}", exc_info=True)
+        return jsonify({
+            'success': False,
+            'error': 'Reclassification failed'
+        }), 500
 
 
-@unified_requests_bp.route('/my-requests', methods=['GET'])
+@unified_requests_bp.route('/requests/my', methods=['GET'])
 @login_required
 def my_requests():
-    """View current user's media requests."""
-    user_requests = MediaRequest.query.filter_by(user_id=current_user.id).order_by(MediaRequest.requested_at.desc()).all()
-    return render_template('my_requests.html', requests=user_requests)
+    """View current user's requests with classification details."""
+    requests = MediaRequest.query.filter_by(user_id=current_user.id).order_by(MediaRequest.requested_at.desc()).all()
+    return render_template('my_requests.html', requests=requests)
 
 
-@unified_requests_bp.route('/requests/<int:request_id>', methods=['GET'])
+@unified_requests_bp.route('/requests/all', methods=['GET'])
 @login_required
-def request_detail(request_id):
-    """View details of a specific request."""
-    media_request = MediaRequest.query.get_or_404(request_id)
-    
-    # Only allow user to view their own requests (or admins)
-    if media_request.user_id != current_user.id and current_user.role != 'Admin':
-        flash('You do not have permission to view this request', 'error')
+def all_requests():
+    """View all requests (admin only)."""
+    if current_user.role != 'Admin':
+        flash('Unauthorized access', 'error')
         return redirect(url_for('unified_requests.my_requests'))
     
-    # Parse classification data
-    classification = None
-    if media_request.classification_data:
-        try:
-            classification = json.loads(media_request.classification_data)
-        except:
-            pass
-    
-    return render_template('request_detail.html', request=media_request, classification=classification)
+    requests = MediaRequest.query.order_by(MediaRequest.requested_at.desc()).all()
+    return render_template('all_requests.html', requests=requests)
 
 
-@unified_requests_bp.route('/requests/<int:request_id>/cancel', methods=['POST'])
-@login_required
-def cancel_request(request_id):
-    """Cancel a pending request."""
-    media_request = MediaRequest.query.get_or_404(request_id)
-    
-    # Only allow user to cancel their own requests (or admins)
-    if media_request.user_id != current_user.id and current_user.role != 'Admin':
-        flash('You do not have permission to cancel this request', 'error')
-        return redirect(url_for('unified_requests.my_requests'))
-    
-    if media_request.status != 'Pending':
-        flash('Can only cancel pending requests', 'error')
-        return redirect(url_for('unified_requests.request_detail', request_id=request_id))
-    
-    media_request.status = 'Cancelled'
-    db.session.commit()
-    
-    logging.info(f"Request {request_id} cancelled by user {current_user.id}")
-    flash(f'Request cancelled: {media_request.title}', 'success')
-    
-    return redirect(url_for('unified_requests.my_requests'))
-
-
-@unified_requests_bp.route('/health', methods=['GET'])
-@login_required
-def check_services_health():
-    """
-    Check health status of all *arr services.
-    
-    Response:
-        {
-            "sonarr": {"status": "online", "version": "3.0.9"},
-            "radarr": {"status": "online", "version": "4.3.2"},
-            "lidarr": {"status": "offline", "error": "Connection refused"}
-        }
-    """
-    from app.helpers.sonarr_helper import SonarrHelper
-    from app.helpers.radarr_helper import RadarrHelper
-    from app.helpers.lidarr_helper import LidarrHelper
-    
-    health = {}
-    
-    # Check Sonarr
-    try:
-        sonarr = SonarrHelper()
-        # Assuming helpers have a health check method
-        health['sonarr'] = {'status': 'online'}
-    except Exception as e:
-        health['sonarr'] = {'status': 'offline', 'error': str(e)}
-    
-    # Check Radarr
-    try:
-        radarr = RadarrHelper()
-        health['radarr'] = {'status': 'online'}
-    except Exception as e:
-        health['radarr'] = {'status': 'offline', 'error': str(e)}
-    
-    # Check Lidarr
-    try:
-        lidarr = LidarrHelper()
-        health['lidarr'] = {'status': 'online'}
-    except Exception as e:
-        health['lidarr'] = {'status': 'offline', 'error': str(e)}
-    
-    return jsonify(health)
+def _get_service_display_name(service):
+    """Get user-friendly service name."""
+    service_names = {
+        'sonarr': 'Sonarr (TV Shows)',
+        'radarr': 'Radarr (Movies)',
+        'lidarr': 'Lidarr (Music)'
+    }
+    return service_names.get(service, 'Unknown')
