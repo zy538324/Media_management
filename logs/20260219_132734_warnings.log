@@ -1,0 +1,186 @@
+2026-02-19 13:27:35,126 - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-02-19 13:27:35,128 - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-02-19 13:27:35,134 - INFO - Added job "create_app.<locals>.daily_recommendations_task" to job store "default"
+2026-02-19 13:27:35,135 - INFO - Added job "create_app.<locals>.process_pending_requests_task" to job store "default"
+2026-02-19 13:27:35,135 - INFO - Scheduler started
+2026-02-19 13:27:35,796 - INFO - Connected to qBittorrent successfully.
+2026-02-19 13:27:36,114 - INFO - Connected to qBittorrent successfully.
+2026-02-19 13:27:36,485 - INFO - Connected to qBittorrent successfully.
+2026-02-19 13:27:37,191 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.252.0.70:5000
+2026-02-19 13:27:37,196 - INFO - [33mPress CTRL+C to quit[0m
+2026-02-19 13:27:59,085 - INFO - 10.252.0.2 - - [19/Feb/2026 13:27:59] "[32mPOST /edit-request/13 HTTP/1.1[0m" 302 -
+2026-02-19 13:27:59,780 - INFO - 10.252.0.2 - - [19/Feb/2026 13:27:59] "GET /add-request HTTP/1.1" 200 -
+2026-02-19 13:28:00,269 - INFO - 10.252.0.2 - - [19/Feb/2026 13:28:00] "[36mGET /static/scripts.js HTTP/1.1[0m" 304 -
+2026-02-19 13:28:00,275 - INFO - 10.252.0.2 - - [19/Feb/2026 13:28:00] "[36mGET /static/styles.css HTTP/1.1[0m" 304 -
+2026-02-19 13:31:51,010 - INFO - 10.252.0.2 - - [19/Feb/2026 13:31:51] "[32mPOST /edit-request/13 HTTP/1.1[0m" 302 -
+2026-02-19 13:31:51,058 - INFO - 10.252.0.2 - - [19/Feb/2026 13:31:51] "GET /add-request HTTP/1.1" 200 -
+2026-02-19 13:31:51,158 - INFO - 10.252.0.2 - - [19/Feb/2026 13:31:51] "[36mGET /static/styles.css HTTP/1.1[0m" 304 -
+2026-02-19 13:31:51,175 - INFO - 10.252.0.2 - - [19/Feb/2026 13:31:51] "[36mGET /static/scripts.js HTTP/1.1[0m" 304 -
+2026-02-19 13:32:35,139 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 13:37:35 GMT)" (scheduled at 2026-02-19 13:32:35.127705+00:00)
+2026-02-19 13:32:35,222 - INFO - Found 1 pending requests - managed by Radarr/Sonarr/Lidarr
+2026-02-19 13:32:35,232 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 13:37:35 GMT)" executed successfully
+2026-02-19 13:35:25,547 - INFO - 10.252.0.2 - - [19/Feb/2026 13:35:25] "[32mPOST /delete-request/13 HTTP/1.1[0m" 302 -
+2026-02-19 13:35:25,606 - INFO - 10.252.0.2 - - [19/Feb/2026 13:35:25] "GET /add-request HTTP/1.1" 200 -
+2026-02-19 13:35:25,829 - INFO - 10.252.0.2 - - [19/Feb/2026 13:35:25] "[36mGET /static/styles.css HTTP/1.1[0m" 304 -
+2026-02-19 13:35:25,832 - INFO - 10.252.0.2 - - [19/Feb/2026 13:35:25] "[36mGET /static/scripts.js HTTP/1.1[0m" 304 -
+2026-02-19 13:35:34,317 - INFO - [WEB ADD-REQUEST] Received request for title='Andre Rieu', type='Music'
+2026-02-19 13:35:34,360 - INFO - [WEB ADD-REQUEST] Request saved to database with ID: 14
+2026-02-19 13:35:34,377 - INFO - [WEB ADD-REQUEST] Getting TMDb details for Andre Rieu
+2026-02-19 13:35:34,381 - INFO - Fetching media details for 'Andre Rieu' as music
+2026-02-19 13:35:34,495 - INFO - [WEB ADD-REQUEST] Media Details: {'adult': False, 'backdrop_path': '/yJrh2Dfr1QkjsArrCgSoMA4yysD.jpg', 'genre_ids': [99], 'id': 152671, 'origin_country': ['GB'], 'original_language': 'en', 'original_name': 'André Rieu - Welcome to My World', 'overview': 'From Australia to Argentina via Mexico and Maastricht, viewers join André and the members of the famous Johann Strauss Orchestra in a spectacular journey celebrating music, waltzes and his spellbinding showmanship. Each episode documents an exhilarating part of the maestro’s life, as well as showcasing new concert performances.', 'popularity': 0.2365, 'poster_path': '/dOXIb0WJ6MGNP02GWjB7ahfX23C.jpg', 'first_air_date': '2013-10-26', 'name': 'André Rieu - Welcome to My World', 'vote_average': 0.0, 'vote_count': 0}
+2026-02-19 13:35:34,496 - INFO - [WEB ADD-REQUEST] Checking if artist already exists in Lidarr...
+2026-02-19 13:35:35,380 - INFO - Found artist in search: MusicBrainz ID 0eaa4a38-6bc3-46aa-91be-563f1fa86e16
+2026-02-19 13:35:35,407 - INFO - Artist 'Andre Rieu' (MBID: 0eaa4a38-6bc3-46aa-91be-563f1fa86e16) not found in Lidarr library
+2026-02-19 13:35:35,409 - INFO - [WEB ADD-REQUEST] Sending to Lidarr...
+2026-02-19 13:35:35,535 - INFO - Found 26 root folders in Lidarr
+2026-02-19 13:35:35,536 - INFO -   - E:\Music\A
+2026-02-19 13:35:35,537 - INFO -   - E:\Music\B
+2026-02-19 13:35:35,550 - INFO -   - E:\Music\C
+2026-02-19 13:35:35,559 - INFO -   - E:\Music\D
+2026-02-19 13:35:35,563 - INFO -   - E:\Music\E
+2026-02-19 13:35:35,575 - INFO -   - E:\Music\F
+2026-02-19 13:35:35,583 - INFO -   - E:\Music\G
+2026-02-19 13:35:35,599 - INFO -   - E:\Music\H
+2026-02-19 13:35:35,608 - INFO -   - E:\Music\I
+2026-02-19 13:35:35,609 - INFO -   - E:\Music\J
+2026-02-19 13:35:35,610 - INFO -   - E:\Music\K
+2026-02-19 13:35:35,610 - INFO -   - E:\Music\L
+2026-02-19 13:35:35,611 - INFO -   - E:\Music\M
+2026-02-19 13:35:35,613 - INFO -   - E:\Music\N
+2026-02-19 13:35:35,613 - INFO -   - E:\Music\O
+2026-02-19 13:35:35,636 - INFO -   - E:\Music\P
+2026-02-19 13:35:35,645 - INFO -   - E:\Music\Q
+2026-02-19 13:35:35,646 - INFO -   - E:\Music\R
+2026-02-19 13:35:35,647 - INFO -   - E:\Music\S
+2026-02-19 13:35:35,653 - INFO -   - E:\Music\T
+2026-02-19 13:35:35,653 - INFO -   - E:\Music\U
+2026-02-19 13:35:35,654 - INFO -   - E:\Music\V
+2026-02-19 13:35:35,655 - INFO -   - E:\Music\W
+2026-02-19 13:35:35,656 - INFO -   - E:\Music\X
+2026-02-19 13:35:35,657 - INFO -   - E:\Music\Y
+2026-02-19 13:35:35,663 - INFO -   - E:\Music\Z
+2026-02-19 13:35:35,667 - INFO - Using root folder from Lidarr: E:\Music\A
+2026-02-19 13:35:35,684 - INFO - Attempting to add artist to Lidarr: artist_name='Andre Rieu', root_folder_path='E:\Music\A', quality_profile_id=1, metadata_profile_id=1
+2026-02-19 13:35:35,690 - INFO - Searching Lidarr for artist: Andre Rieu
+2026-02-19 13:35:35,784 - INFO - Found artist in Lidarr: André Rieu (MusicBrainz ID: 0eaa4a38-6bc3-46aa-91be-563f1fa86e16)
+2026-02-19 13:35:35,789 - INFO - Lidarr add_artist endpoint: http://10.252.0.2:8686/api/v1/artist
+2026-02-19 13:35:35,799 - INFO - Lidarr add_artist payload: {'artistName': 'Andre Rieu', 'foreignArtistId': '0eaa4a38-6bc3-46aa-91be-563f1fa86e16', 'qualityProfileId': 1, 'metadataProfileId': 1, 'rootFolderPath': 'E:\\Music\\A', 'monitored': True, 'addOptions': {'searchForMissingAlbums': True}}
+2026-02-19 13:35:36,245 - INFO - Artist 'Andre Rieu' added to Lidarr successfully. Response: {'status': 'continuing', 'ended': False, 'artistName': 'André Rieu', 'foreignArtistId': '0eaa4a38-6bc3-46aa-91be-563f1fa86e16', 'tadbId': 0, 'discogsId': 0, 'overview': 'André Léon Marie Nicolas Rieu is a Dutch violinist and conductor best known as the founder of the waltz-playing Johann Strauss Orchestra.', 'artistType': 'Person', 'disambiguation': '', 'links': [{'url': 'http://www.andrerieu.com/', 'name': 'andrerieu'}, {'url': 'https://www.discogs.com/artist/287377', 'name': 'discogs'}, {'url': 'https://www.imdb.com/name/nm1035947/', 'name': 'imdb'}, {'url': 'https://twitter.com/andrerieu', 'name': 'twitter'}, {'url': 'http://viaf.org/viaf/32165140', 'name': 'viaf'}, {'url': 'https://www.wikidata.org/wiki/Q159832', 'name': 'wikidata'}, {'url': 'http://muzikum.eu/en/122-382/andr%C3%83%C2%A9-rieu/lyrics.html', 'name': 'muzikum'}, {'url': 'https://www.allmusic.com/artist/mn0000819535', 'name': 'allmusic'}, {'url': 'https://d-nb.info/gnd/119520966', 'name': 'd-nb'}, {'url': 'http://id.loc.gov/authorities/names/no99080748', 'name': 'loc'}, {'url': 'https://www.worldcat.org/identities/lccn-no99080748', 'name': 'worldcat'}, {'url': 'https://catalogue.bnf.fr/ark:/12148/cb135657611', 'name': 'bnf'}, {'url': 'https://www.songkick.com/artists/537148', 'name': 'songkick'}, {'url': 'https://open.spotify.com/artist/3hJv5p2HwekJysNB2NDnEC', 'name': 'spotify'}, {'url': 'https://www.musik-sammler.de/artist/andre-rieu/', 'name': 'musik-sammler'}, {'url': 'https://www.last.fm/music/Andr%C3%A9%20Rieu', 'name': 'last'}, {'url': 'https://tidal.com/artist/30071', 'name': 'tidal'}, {'url': 'https://www.deezer.com/artist/8728', 'name': 'deezer'}, {'url': 'https://www.instagram.com/andrerieu/', 'name': 'instagram'}, {'url': 'https://www.threads.com/@andrerieu', 'name': 'threads'}, {'url': 'https://www.youtube.com/andrerieu', 'name': 'youtube'}, {'url': 'https://music.youtube.com/channel/UCwEeCuFQo7gH6dcMeNnLg1A', 'name': 'youtube'}, {'url': 'https://www.setlist.fm/setlists/andre-rieu-4bd76332.html', 'name': 'setlist'}, {'url': 'https://www.bandsintown.com/a/213482', 'name': 'bandsintown'}, {'url': 'https://soundcloud.com/andre-rieu-official', 'name': 'soundcloud'}, {'url': 'https://rateyourmusic.com/artist/andre-rieu-1', 'name': 'rateyourmusic'}, {'url': 'https://genius.com/artists/Andre-rieu', 'name': 'genius'}, {'url': 'https://www.tiktok.com/@andrerieu', 'name': 'tiktok'}, {'url': 'https://itunes.apple.com/nl/artist/id2617780', 'name': 'apple'}, {'url': 'https://music.apple.com/nl/artist/2617780', 'name': 'apple'}, {'url': 'https://www.facebook.com/andrerieu', 'name': 'facebook'}, {'url': 'https://andrrieu.bandcamp.com/', 'name': 'bandcamp'}], 'nextAlbum': None, 'lastAlbum': None, 'images': [{'url': '/MediaCover/1/poster.jpg', 'coverType': 'poster', 'extension': '.jpg', 'remoteUrl': 'https://images.lidarr.audio/cache/https://assets.fanart.tv/fanart/rieu-andr-5168617e685cd.jpg'}, {'url': '/MediaCover/1/fanart.jpg', 'coverType': 'fanart', 'extension': '.jpg', 'remoteUrl': 'https://images.lidarr.audio/cache/https://assets.fanart.tv/fanart/rieu-andr-5168609e0ea00.jpg'}, {'url': '/MediaCover/1/clearlogo.png', 'coverType': 'clearlogo', 'extension': '.png', 'remoteUrl': 'https://images.lidarr.audio/cache/https://assets.fanart.tv/fanart/rieu-andr-4f8dba229f925.png'}], 'path': 'E:\\Music\\A\\André Rieu', 'qualityProfileId': 1, 'metadataProfileId': 1, 'monitored': True, 'monitorNewItems': 'all', 'rootFolderPath': 'E:\\Music\\A\\', 'genres': ['Classical', 'Classical Crossover', 'Waltz', 'Easy Listening'], 'cleanName': 'andrerieu', 'sortName': 'andré rieu', 'tags': [], 'added': '2026-02-19T13:35:35Z', 'addOptions': {'searchForMissingAlbums': True, 'monitor': 'unknown', 'albumsToMonitor': [], 'monitored': False}, 'ratings': {'votes': 1, 'value': 10.0}, 'statistics': {'albumCount': 0, 'trackFileCount': 0, 'trackCount': 0, 'totalTrackCount': 0, 'sizeOnDisk': 0, 'percentOfTracks': 0}, 'id': 1}
+2026-02-19 13:35:36,246 - INFO - [WEB ADD-REQUEST] Sent to Lidarr: Andre Rieu (ID: 152671) - Success: True
+2026-02-19 13:35:36,270 - INFO - 10.252.0.2 - - [19/Feb/2026 13:35:36] "[32mPOST /add-request HTTP/1.1[0m" 302 -
+2026-02-19 13:35:36,358 - INFO - 10.252.0.2 - - [19/Feb/2026 13:35:36] "GET /add-request HTTP/1.1" 200 -
+2026-02-19 13:35:36,504 - INFO - 10.252.0.2 - - [19/Feb/2026 13:35:36] "[36mGET /static/styles.css HTTP/1.1[0m" 304 -
+2026-02-19 13:35:36,545 - INFO - 10.252.0.2 - - [19/Feb/2026 13:35:36] "[36mGET /static/scripts.js HTTP/1.1[0m" 304 -
+2026-02-19 13:37:35,134 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 13:42:35 GMT)" (scheduled at 2026-02-19 13:37:35.127705+00:00)
+2026-02-19 13:37:35,254 - INFO - Found 1 pending requests - managed by Radarr/Sonarr/Lidarr
+2026-02-19 13:37:35,265 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 13:42:35 GMT)" executed successfully
+2026-02-19 13:42:35,142 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 13:47:35 GMT)" (scheduled at 2026-02-19 13:42:35.127705+00:00)
+2026-02-19 13:42:35,181 - INFO - Found 1 pending requests - managed by Radarr/Sonarr/Lidarr
+2026-02-19 13:42:35,185 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 13:47:35 GMT)" executed successfully
+2026-02-19 13:47:35,145 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 13:52:35 GMT)" (scheduled at 2026-02-19 13:47:35.127705+00:00)
+2026-02-19 13:47:35,216 - INFO - Found 1 pending requests - managed by Radarr/Sonarr/Lidarr
+2026-02-19 13:47:35,222 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 13:52:35 GMT)" executed successfully
+2026-02-19 13:52:35,132 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 13:57:35 GMT)" (scheduled at 2026-02-19 13:52:35.127705+00:00)
+2026-02-19 13:52:35,270 - INFO - Found 1 pending requests - managed by Radarr/Sonarr/Lidarr
+2026-02-19 13:52:35,284 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 13:57:35 GMT)" executed successfully
+2026-02-19 13:52:41,929 - INFO - 10.252.0.2 - - [19/Feb/2026 13:52:41] "[32mPOST /edit-request/14 HTTP/1.1[0m" 302 -
+2026-02-19 13:52:42,007 - INFO - 10.252.0.2 - - [19/Feb/2026 13:52:42] "GET /add-request HTTP/1.1" 200 -
+2026-02-19 13:52:42,166 - INFO - 10.252.0.2 - - [19/Feb/2026 13:52:42] "[36mGET /static/styles.css HTTP/1.1[0m" 304 -
+2026-02-19 13:52:42,198 - INFO - 10.252.0.2 - - [19/Feb/2026 13:52:42] "[36mGET /static/scripts.js HTTP/1.1[0m" 304 -
+2026-02-19 13:57:35,140 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 14:02:35 GMT)" (scheduled at 2026-02-19 13:57:35.127705+00:00)
+2026-02-19 13:57:35,179 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 14:02:35 GMT)" executed successfully
+2026-02-19 13:58:36,984 - INFO - 10.252.0.2 - - [19/Feb/2026 13:58:36] "GET /library HTTP/1.1" 200 -
+2026-02-19 13:58:37,117 - INFO - 10.252.0.2 - - [19/Feb/2026 13:58:37] "[36mGET /static/styles.css HTTP/1.1[0m" 304 -
+2026-02-19 13:58:37,145 - INFO - 10.252.0.2 - - [19/Feb/2026 13:58:37] "[36mGET /static/scripts.js HTTP/1.1[0m" 304 -
+2026-02-19 13:58:43,413 - INFO - 10.252.0.2 - - [19/Feb/2026 13:58:43] "GET /library HTTP/1.1" 200 -
+2026-02-19 13:58:43,527 - INFO - 10.252.0.2 - - [19/Feb/2026 13:58:43] "[36mGET /static/styles.css HTTP/1.1[0m" 304 -
+2026-02-19 13:58:43,553 - INFO - 10.252.0.2 - - [19/Feb/2026 13:58:43] "[36mGET /static/scripts.js HTTP/1.1[0m" 304 -
+2026-02-19 14:02:35,135 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 14:07:35 GMT)" (scheduled at 2026-02-19 14:02:35.127705+00:00)
+2026-02-19 14:02:35,210 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 14:07:35 GMT)" executed successfully
+2026-02-19 14:03:38,015 - INFO - Fetching recommendations for 'Argylle' as movie
+2026-02-19 14:03:38,416 - INFO - Found 10 new recommendations for 'Argylle'
+2026-02-19 14:03:38,418 - INFO - Fetching recommendations for 'Braveheart' as movie
+2026-02-19 14:03:38,940 - INFO - Found 10 new recommendations for 'Braveheart'
+2026-02-19 14:03:38,941 - INFO - Fetching recommendations for 'Casino' as movie
+2026-02-19 14:03:39,320 - INFO - Found 10 new recommendations for 'Casino'
+2026-02-19 14:03:39,321 - INFO - Fetching recommendations for 'Dances with Wolves' as movie
+2026-02-19 14:03:39,857 - INFO - Found 10 new recommendations for 'Dances with Wolves'
+2026-02-19 14:03:39,861 - INFO - Fetching recommendations for 'Dunkirk' as movie
+2026-02-19 14:03:40,298 - INFO - Found 10 new recommendations for 'Dunkirk'
+2026-02-19 14:03:40,300 - INFO - Fetching recommendations for 'Enemy at the Gates' as movie
+2026-02-19 14:03:40,724 - INFO - Found 10 new recommendations for 'Enemy at the Gates'
+2026-02-19 14:03:40,725 - INFO - Fetching recommendations for 'GoodFellas' as movie
+2026-02-19 14:03:41,208 - INFO - Found 10 new recommendations for 'GoodFellas'
+2026-02-19 14:03:41,209 - INFO - Fetching recommendations for 'Hamnet' as movie
+2026-02-19 14:03:41,719 - INFO - Found 10 new recommendations for 'Hamnet'
+2026-02-19 14:03:41,773 - INFO - Fetching recommendations for 'Henry Danger: The Movie' as movie
+2026-02-19 14:03:42,280 - INFO - Found 10 new recommendations for 'Henry Danger: The Movie'
+2026-02-19 14:03:42,284 - INFO - Fetching recommendations for 'Highlander' as movie
+2026-02-19 14:03:42,660 - INFO - Found 10 new recommendations for 'Highlander'
+2026-02-19 14:03:42,661 - INFO - Fetching recommendations for 'How to Train Your Dragon' as movie
+2026-02-19 14:03:43,084 - INFO - Found 10 new recommendations for 'How to Train Your Dragon'
+2026-02-19 14:03:43,481 - INFO - Fetching recommendations for 'Inglourious Basterds' as movie
+2026-02-19 14:03:43,978 - INFO - Found 10 new recommendations for 'Inglourious Basterds'
+2026-02-19 14:03:43,979 - INFO - Fetching recommendations for 'Jungle Cruise' as movie
+2026-02-19 14:03:44,377 - INFO - Found 10 new recommendations for 'Jungle Cruise'
+2026-02-19 14:03:44,379 - INFO - Fetching recommendations for 'Lilo & Stitch' as movie
+2026-02-19 14:03:44,691 - INFO - Found 10 new recommendations for 'Lilo & Stitch'
+2026-02-19 14:03:44,693 - INFO - Fetching recommendations for 'Napoleon' as movie
+2026-02-19 14:03:45,114 - INFO - Found 10 new recommendations for 'Napoleon'
+2026-02-19 14:03:45,123 - INFO - Fetching recommendations for 'Nuremberg' as movie
+2026-02-19 14:03:45,527 - INFO - Found 10 new recommendations for 'Nuremberg'
+2026-02-19 14:03:45,529 - INFO - Fetching recommendations for 'The Patriot' as movie
+2026-02-19 14:03:45,917 - INFO - Found 10 new recommendations for 'The Patriot'
+2026-02-19 14:03:45,918 - INFO - Fetching recommendations for 'Pulp Fiction' as movie
+2026-02-19 14:03:46,259 - INFO - Found 10 new recommendations for 'Pulp Fiction'
+2026-02-19 14:03:46,260 - INFO - Fetching recommendations for 'Robin Hood: Prince of Thieves' as movie
+2026-02-19 14:03:46,581 - INFO - Found 10 new recommendations for 'Robin Hood: Prince of Thieves'
+2026-02-19 14:03:46,583 - INFO - Fetching recommendations for 'Saving Private Ryan' as movie
+2026-02-19 14:03:46,977 - INFO - Found 10 new recommendations for 'Saving Private Ryan'
+2026-02-19 14:03:46,978 - INFO - Fetching recommendations for 'Superman' as movie
+2026-02-19 14:03:47,420 - INFO - Found 10 new recommendations for 'Superman'
+2026-02-19 14:03:47,421 - INFO - Fetching recommendations for 'The Untouchables' as movie
+2026-02-19 14:03:47,915 - INFO - Found 10 new recommendations for 'The Untouchables'
+2026-02-19 14:03:47,916 - INFO - Fetching recommendations for 'Valkyrie' as movie
+2026-02-19 14:03:48,317 - INFO - Found 10 new recommendations for 'Valkyrie'
+2026-02-19 14:03:48,318 - INFO - Fetching recommendations for '2 Broke Girls' as tv show
+2026-02-19 14:03:48,725 - INFO - Found 10 new recommendations for '2 Broke Girls'
+2026-02-19 14:03:48,728 - INFO - Fetching recommendations for '9-1-1' as tv show
+2026-02-19 14:03:49,108 - INFO - Found 10 new recommendations for '9-1-1'
+2026-02-19 14:03:49,109 - INFO - Fetching recommendations for 'Agatha Raisin' as tv show
+2026-02-19 14:03:49,474 - INFO - Found 10 new recommendations for 'Agatha Raisin'
+2026-02-19 14:03:49,475 - INFO - Fetching recommendations for 'Amadeus' as tv show
+2026-02-19 14:03:49,789 - INFO - No recommendations found for 'Amadeus'
+2026-02-19 14:03:49,791 - INFO - Fetching recommendations for 'Danger Force' as tv show
+2026-02-19 14:03:50,203 - INFO - Found 10 new recommendations for 'Danger Force'
+2026-02-19 14:03:50,205 - INFO - Fetching recommendations for 'High Potential' as tv show
+2026-02-19 14:03:50,702 - INFO - Found 10 new recommendations for 'High Potential'
+2026-02-19 14:03:50,703 - INFO - Fetching recommendations for 'House of the Dragon' as tv show
+2026-02-19 14:03:51,097 - INFO - Found 10 new recommendations for 'House of the Dragon'
+2026-02-19 14:03:51,098 - INFO - Fetching recommendations for 'A Knight of the Seven Kingdoms' as tv show
+2026-02-19 14:03:51,421 - INFO - Found 10 new recommendations for 'A Knight of the Seven Kingdoms'
+2026-02-19 14:03:51,423 - INFO - Fetching recommendations for 'The Librarians' as tv show
+2026-02-19 14:03:51,925 - INFO - Found 10 new recommendations for 'The Librarians'
+2026-02-19 14:03:51,928 - INFO - Fetching recommendations for 'The Librarians: The Next Chapter' as tv show
+2026-02-19 14:03:52,324 - INFO - Found 10 new recommendations for 'The Librarians: The Next Chapter'
+2026-02-19 14:03:52,325 - INFO - Fetching recommendations for 'The Rookie' as tv show
+2026-02-19 14:03:52,696 - INFO - Found 10 new recommendations for 'The Rookie'
+2026-02-19 14:03:52,699 - INFO - Fetching recommendations for 'Rosemary & Thyme' as tv show
+2026-02-19 14:03:53,087 - INFO - Found 10 new recommendations for 'Rosemary & Thyme'
+2026-02-19 14:03:53,088 - INFO - Fetching recommendations for 'Sanditon' as tv show
+2026-02-19 14:03:53,491 - INFO - Found 10 new recommendations for 'Sanditon'
+2026-02-19 14:03:53,491 - INFO - Fetching recommendations for 'Shakespeare & Hathaway - Private Investigators' as tv show
+2026-02-19 14:03:53,775 - INFO - Found 10 new recommendations for 'Shakespeare & Hathaway - Private Investigators'
+2026-02-19 14:03:53,867 - INFO - 10.252.0.2 - - [19/Feb/2026 14:03:53] "GET /recommendations HTTP/1.1" 200 -
+2026-02-19 14:03:53,973 - INFO - 10.252.0.2 - - [19/Feb/2026 14:03:53] "[36mGET /static/styles.css HTTP/1.1[0m" 304 -
+2026-02-19 14:03:54,273 - INFO - 10.252.0.2 - - [19/Feb/2026 14:03:54] "[36mGET /static/scripts.js HTTP/1.1[0m" 304 -
+2026-02-19 14:07:35,135 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 14:12:35 GMT)" (scheduled at 2026-02-19 14:07:35.127705+00:00)
+2026-02-19 14:07:35,244 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 14:12:35 GMT)" executed successfully
+2026-02-19 14:07:51,762 - INFO - Fetching recommendations for 'Argylle' as movie
+2026-02-19 14:09:33,129 - INFO - Found 10 new recommendations for 'Argylle'
+2026-02-19 14:09:33,130 - INFO - Fetching recommendations for 'Braveheart' as movie
+2026-02-19 14:09:33,507 - INFO - Found 10 new recommendations for 'Braveheart'
+2026-02-19 14:09:33,508 - INFO - Fetching recommendations for 'Casino' as movie

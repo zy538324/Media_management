@@ -12,19 +12,81 @@ class RadarrHelper:
         if not self.api_url or not self.api_key:
             self.logger.warning("Radarr API URL or API Key is not configured. RadarrHelper may not function.")
 
-    def add_movie(self, tmdb_id, title, quality_profile_id=1, root_folder_path='/movies/'):
+    def check_movie_exists(self, tmdb_id):
+        """
+        Check if a movie already exists in Radarr by TMDb ID.
+        Returns True if exists, False otherwise.
+        """
+        if not self.api_url or not self.api_key:
+            self.logger.error("Radarr API URL or API Key is not configured.")
+            return False
+
+        try:
+            endpoint = f"{self.api_url.rstrip('/')}/api/v3/movie"
+            headers = {'X-Api-Key': self.api_key}
+            
+            response = requests.get(endpoint, headers=headers)
+            response.raise_for_status()
+            movies = response.json()
+            
+            # Check if any movie has matching TMDb ID
+            for movie in movies:
+                if movie.get('tmdbId') == tmdb_id:
+                    self.logger.info(f"Movie with TMDb ID {tmdb_id} already exists in Radarr: {movie.get('title')}")
+                    return True
+            
+            self.logger.info(f"Movie with TMDb ID {tmdb_id} not found in Radarr")
+            return False
+            
+        except Exception as e:
+            self.logger.error(f"Error checking if movie exists in Radarr: {e}")
+            return False
+
+    def get_root_folders(self):
+        """
+        Get available root folders from Radarr
+        """
+        if not self.api_url or not self.api_key:
+            self.logger.error("Radarr API URL or API Key is not configured. Cannot get root folders.")
+            return []
+
+        endpoint = f"{self.api_url.rstrip('/')}/api/v3/rootfolder"
+        headers = {'X-Api-Key': self.api_key}
+
+        try:
+            response = requests.get(endpoint, headers=headers)
+            response.raise_for_status()
+            folders = response.json()
+            self.logger.info(f"Found {len(folders)} root folders in Radarr")
+            for folder in folders:
+                self.logger.info(f"  - {folder.get('path')}")
+            return folders
+        except Exception as e:
+            self.logger.error(f"Error getting root folders from Radarr: {e}")
+            return []
+
+    def add_movie(self, tmdb_id, title, quality_profile_id=1, root_folder_path=None):
         """
         Adds a movie to Radarr.
-        (Placeholder implementation)
         """
+        if not self.api_url or not self.api_key:
+            self.logger.error("Radarr API URL or API Key is not configured. Cannot add movie.")
+            return False
+
+        # If root_folder_path not provided, get it from Radarr
+        if not root_folder_path:
+            folders = self.get_root_folders()
+            if folders:
+                root_folder_path = folders[0].get('path')
+                self.logger.info(f"Using root folder from Radarr: {root_folder_path}")
+            else:
+                self.logger.error("Could not determine root folder path for Radarr")
+                return False
+
         self.logger.info(
             f"Attempting to add movie to Radarr: tmdb_id={tmdb_id}, title='{title}', "
             f"quality_profile_id={quality_profile_id}, root_folder_path='{root_folder_path}'"
         )
-
-        if not self.api_url or not self.api_key:
-            self.logger.error("Radarr API URL or API Key is not configured. Cannot add movie.")
-            return False
 
         # Radarr API endpoint for adding a movie
         endpoint = f"{self.api_url.rstrip('/')}/api/v3/movie"
@@ -51,18 +113,18 @@ class RadarrHelper:
         self.logger.info(f"Radarr add_movie payload: {payload}")
         self.logger.info(f"Radarr add_movie headers: {headers.get('X-Api-Key', 'Key_Not_Set')[:5]}...") # Log first 5 chars of key for verification
 
-        # Placeholder for the actual request:
-        # try:
-        #     response = requests.post(endpoint, json=payload, headers=headers)
-        #     response.raise_for_status()  # Raise an exception for HTTP errors (4xx or 5xx)
-        #     self.logger.info(f"Movie '{title}' added to Radarr successfully. Response: {response.json()}")
-        #     return True
-        # except requests.exceptions.RequestException as e:
-        #     self.logger.error(f"Error adding movie '{title}' to Radarr: {e}")
-        #     return False
-
-        self.logger.info("Placeholder: Movie add operation 'simulated' successfully.")
-        return True # Simulate success for now
+        try:
+            response = requests.post(endpoint, json=payload, headers=headers)
+            response.raise_for_status()  # Raise an exception for HTTP errors (4xx or 5xx)
+            self.logger.info(f"Movie '{title}' added to Radarr successfully. Response: {response.json()}")
+            return True
+        except requests.exceptions.RequestException as e:
+            self.logger.error(f"Error adding movie '{title}' to Radarr: {e}")
+            try:
+                self.logger.error(f"Radarr response: {response.text}")
+            except:
+                pass
+            return False
 
     def search_movie(self, term):
         """

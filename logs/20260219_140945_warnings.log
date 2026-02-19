@@ -1,0 +1,327 @@
+2026-02-19 14:09:45,780 - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-02-19 14:09:45,795 - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-02-19 14:09:45,800 - INFO - Added job "create_app.<locals>.daily_recommendations_task" to job store "default"
+2026-02-19 14:09:45,800 - INFO - Added job "create_app.<locals>.process_pending_requests_task" to job store "default"
+2026-02-19 14:09:45,801 - INFO - Scheduler started
+2026-02-19 14:09:46,392 - INFO - Connected to qBittorrent successfully.
+2026-02-19 14:09:46,824 - INFO - Connected to qBittorrent successfully.
+2026-02-19 14:09:47,067 - INFO - Connected to qBittorrent successfully.
+2026-02-19 14:09:48,163 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.252.0.70:5000
+2026-02-19 14:09:48,164 - INFO - [33mPress CTRL+C to quit[0m
+2026-02-19 14:09:50,681 - INFO - Fetching recommendations for 'Argylle' as movie
+2026-02-19 14:09:51,047 - INFO - Found 10 new recommendations for 'Argylle'
+2026-02-19 14:09:51,049 - INFO - Fetching recommendations for 'Braveheart' as movie
+2026-02-19 14:09:51,364 - INFO - Found 10 new recommendations for 'Braveheart'
+2026-02-19 14:09:51,365 - INFO - Fetching recommendations for 'Casino' as movie
+2026-02-19 14:09:51,603 - INFO - Found 10 new recommendations for 'Casino'
+2026-02-19 14:09:51,603 - INFO - Fetching recommendations for 'Dances with Wolves' as movie
+2026-02-19 14:09:51,863 - INFO - Found 10 new recommendations for 'Dances with Wolves'
+2026-02-19 14:09:51,864 - INFO - Fetching recommendations for 'Dunkirk' as movie
+2026-02-19 14:09:52,131 - INFO - Found 10 new recommendations for 'Dunkirk'
+2026-02-19 14:09:52,133 - INFO - Fetching recommendations for 'Enemy at the Gates' as movie
+2026-02-19 14:09:52,526 - INFO - Found 10 new recommendations for 'Enemy at the Gates'
+2026-02-19 14:09:52,545 - INFO - Fetching recommendations for 'GoodFellas' as movie
+2026-02-19 14:09:53,052 - INFO - Found 10 new recommendations for 'GoodFellas'
+2026-02-19 14:09:53,053 - INFO - Fetching recommendations for 'Hamnet' as movie
+2026-02-19 14:09:53,315 - INFO - Found 10 new recommendations for 'Hamnet'
+2026-02-19 14:09:53,316 - INFO - Fetching recommendations for 'Henry Danger: The Movie' as movie
+2026-02-19 14:09:53,709 - INFO - Found 10 new recommendations for 'Henry Danger: The Movie'
+2026-02-19 14:09:53,711 - INFO - Fetching recommendations for 'Highlander' as movie
+2026-02-19 14:09:53,987 - INFO - Found 10 new recommendations for 'Highlander'
+2026-02-19 14:09:53,988 - INFO - Fetching recommendations for 'How to Train Your Dragon' as movie
+2026-02-19 14:09:54,233 - INFO - Found 10 new recommendations for 'How to Train Your Dragon'
+2026-02-19 14:09:54,234 - INFO - Fetching recommendations for 'Inglourious Basterds' as movie
+2026-02-19 14:09:54,468 - INFO - Found 10 new recommendations for 'Inglourious Basterds'
+2026-02-19 14:09:54,470 - INFO - Fetching recommendations for 'Jungle Cruise' as movie
+2026-02-19 14:09:54,703 - INFO - Found 10 new recommendations for 'Jungle Cruise'
+2026-02-19 14:09:54,704 - INFO - Fetching recommendations for 'Lilo & Stitch' as movie
+2026-02-19 14:09:54,985 - INFO - Found 10 new recommendations for 'Lilo & Stitch'
+2026-02-19 14:09:54,986 - INFO - Fetching recommendations for 'Napoleon' as movie
+2026-02-19 14:09:55,548 - INFO - Found 10 new recommendations for 'Napoleon'
+2026-02-19 14:09:55,550 - INFO - Fetching recommendations for 'Nuremberg' as movie
+2026-02-19 14:09:55,917 - INFO - Found 10 new recommendations for 'Nuremberg'
+2026-02-19 14:09:55,918 - INFO - Fetching recommendations for 'The Patriot' as movie
+2026-02-19 14:09:56,176 - INFO - Found 10 new recommendations for 'The Patriot'
+2026-02-19 14:09:56,177 - INFO - Fetching recommendations for 'Pulp Fiction' as movie
+2026-02-19 14:09:56,477 - INFO - Found 10 new recommendations for 'Pulp Fiction'
+2026-02-19 14:09:56,478 - INFO - Fetching recommendations for 'Robin Hood: Prince of Thieves' as movie
+2026-02-19 14:09:56,731 - INFO - Found 10 new recommendations for 'Robin Hood: Prince of Thieves'
+2026-02-19 14:09:56,741 - INFO - Fetching recommendations for 'Saving Private Ryan' as movie
+2026-02-19 14:09:57,120 - INFO - Found 10 new recommendations for 'Saving Private Ryan'
+2026-02-19 14:09:57,123 - INFO - Fetching recommendations for 'Superman' as movie
+2026-02-19 14:09:57,550 - INFO - Found 10 new recommendations for 'Superman'
+2026-02-19 14:09:57,551 - INFO - Fetching recommendations for 'The Untouchables' as movie
+2026-02-19 14:09:57,840 - INFO - Found 10 new recommendations for 'The Untouchables'
+2026-02-19 14:09:57,841 - INFO - Fetching recommendations for 'Valkyrie' as movie
+2026-02-19 14:09:58,127 - INFO - Found 10 new recommendations for 'Valkyrie'
+2026-02-19 14:09:58,128 - INFO - Fetching recommendations for '2 Broke Girls' as tv show
+2026-02-19 14:09:58,461 - INFO - Found 10 new recommendations for '2 Broke Girls'
+2026-02-19 14:09:58,463 - INFO - Fetching recommendations for '9-1-1' as tv show
+2026-02-19 14:09:58,782 - INFO - Found 10 new recommendations for '9-1-1'
+2026-02-19 14:09:58,783 - INFO - Fetching recommendations for 'Agatha Raisin' as tv show
+2026-02-19 14:09:59,063 - INFO - Found 10 new recommendations for 'Agatha Raisin'
+2026-02-19 14:09:59,065 - INFO - Fetching recommendations for 'Amadeus' as tv show
+2026-02-19 14:09:59,199 - INFO - No recommendations found for 'Amadeus'
+2026-02-19 14:09:59,200 - INFO - Fetching recommendations for 'Danger Force' as tv show
+2026-02-19 14:09:59,532 - INFO - Found 10 new recommendations for 'Danger Force'
+2026-02-19 14:09:59,533 - INFO - Fetching recommendations for 'High Potential' as tv show
+2026-02-19 14:09:59,815 - INFO - Found 10 new recommendations for 'High Potential'
+2026-02-19 14:09:59,817 - INFO - Fetching recommendations for 'House of the Dragon' as tv show
+2026-02-19 14:10:00,215 - INFO - Found 10 new recommendations for 'House of the Dragon'
+2026-02-19 14:10:00,217 - INFO - Fetching recommendations for 'A Knight of the Seven Kingdoms' as tv show
+2026-02-19 14:10:01,012 - INFO - Found 10 new recommendations for 'A Knight of the Seven Kingdoms'
+2026-02-19 14:10:01,083 - INFO - Fetching recommendations for 'The Librarians' as tv show
+2026-02-19 14:10:01,594 - INFO - Found 10 new recommendations for 'The Librarians'
+2026-02-19 14:10:01,597 - INFO - Fetching recommendations for 'The Librarians: The Next Chapter' as tv show
+2026-02-19 14:10:01,841 - INFO - Found 10 new recommendations for 'The Librarians: The Next Chapter'
+2026-02-19 14:10:01,842 - INFO - Fetching recommendations for 'The Rookie' as tv show
+2026-02-19 14:10:02,112 - INFO - Found 10 new recommendations for 'The Rookie'
+2026-02-19 14:10:02,114 - INFO - Fetching recommendations for 'Rosemary & Thyme' as tv show
+2026-02-19 14:10:02,398 - INFO - Found 10 new recommendations for 'Rosemary & Thyme'
+2026-02-19 14:10:02,399 - INFO - Fetching recommendations for 'Sanditon' as tv show
+2026-02-19 14:10:02,672 - INFO - Found 10 new recommendations for 'Sanditon'
+2026-02-19 14:10:02,673 - INFO - Fetching recommendations for 'Shakespeare & Hathaway - Private Investigators' as tv show
+2026-02-19 14:10:02,951 - INFO - Found 10 new recommendations for 'Shakespeare & Hathaway - Private Investigators'
+2026-02-19 14:10:03,043 - INFO - 10.252.0.2 - - [19/Feb/2026 14:10:03] "GET /recommendations HTTP/1.1" 200 -
+2026-02-19 14:10:03,335 - INFO - 10.252.0.2 - - [19/Feb/2026 14:10:03] "[36mGET /static/styles.css HTTP/1.1[0m" 304 -
+2026-02-19 14:10:03,549 - INFO - 10.252.0.2 - - [19/Feb/2026 14:10:03] "[36mGET /static/scripts.js HTTP/1.1[0m" 304 -
+2026-02-19 14:14:45,808 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 14:19:45 GMT)" (scheduled at 2026-02-19 14:14:45.794704+00:00)
+2026-02-19 14:14:45,941 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 14:19:45 GMT)" executed successfully
+2026-02-19 14:19:45,811 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 14:24:45 GMT)" (scheduled at 2026-02-19 14:19:45.794704+00:00)
+2026-02-19 14:19:45,868 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 14:24:45 GMT)" executed successfully
+2026-02-19 14:24:45,800 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 14:29:45 GMT)" (scheduled at 2026-02-19 14:24:45.794704+00:00)
+2026-02-19 14:24:45,902 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 14:29:45 GMT)" executed successfully
+2026-02-19 14:29:45,806 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 14:34:45 GMT)" (scheduled at 2026-02-19 14:29:45.794704+00:00)
+2026-02-19 14:29:45,948 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 14:34:45 GMT)" executed successfully
+2026-02-19 14:34:45,798 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 14:39:45 GMT)" (scheduled at 2026-02-19 14:34:45.794704+00:00)
+2026-02-19 14:34:45,865 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 14:39:45 GMT)" executed successfully
+2026-02-19 14:39:45,801 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 14:44:45 GMT)" (scheduled at 2026-02-19 14:39:45.794704+00:00)
+2026-02-19 14:39:45,899 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 14:44:45 GMT)" executed successfully
+2026-02-19 14:44:45,798 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 14:49:45 GMT)" (scheduled at 2026-02-19 14:44:45.794704+00:00)
+2026-02-19 14:44:45,829 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 14:49:45 GMT)" executed successfully
+2026-02-19 14:49:45,811 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 14:54:45 GMT)" (scheduled at 2026-02-19 14:49:45.794704+00:00)
+2026-02-19 14:49:45,860 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 14:54:45 GMT)" executed successfully
+2026-02-19 14:54:45,807 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 14:59:45 GMT)" (scheduled at 2026-02-19 14:54:45.794704+00:00)
+2026-02-19 14:54:45,892 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 14:59:45 GMT)" executed successfully
+2026-02-19 14:59:45,797 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 15:04:45 GMT)" (scheduled at 2026-02-19 14:59:45.794704+00:00)
+2026-02-19 14:59:45,924 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 15:04:45 GMT)" executed successfully
+2026-02-19 15:04:45,811 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 15:09:45 GMT)" (scheduled at 2026-02-19 15:04:45.794704+00:00)
+2026-02-19 15:04:45,858 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 15:09:45 GMT)" executed successfully
+2026-02-19 15:09:45,806 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 15:14:45 GMT)" (scheduled at 2026-02-19 15:09:45.794704+00:00)
+2026-02-19 15:09:45,887 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 15:14:45 GMT)" executed successfully
+2026-02-19 15:14:45,800 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 15:19:45 GMT)" (scheduled at 2026-02-19 15:14:45.794704+00:00)
+2026-02-19 15:14:45,920 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 15:19:45 GMT)" executed successfully
+2026-02-19 15:19:45,803 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 15:24:45 GMT)" (scheduled at 2026-02-19 15:19:45.794704+00:00)
+2026-02-19 15:19:45,849 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 15:24:45 GMT)" executed successfully
+2026-02-19 15:24:45,797 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 15:29:45 GMT)" (scheduled at 2026-02-19 15:24:45.794704+00:00)
+2026-02-19 15:24:45,883 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 15:29:45 GMT)" executed successfully
+2026-02-19 15:29:45,797 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 15:34:45 GMT)" (scheduled at 2026-02-19 15:29:45.794704+00:00)
+2026-02-19 15:29:45,915 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 15:34:45 GMT)" executed successfully
+2026-02-19 15:34:45,798 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 15:39:45 GMT)" (scheduled at 2026-02-19 15:34:45.794704+00:00)
+2026-02-19 15:34:45,844 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 15:39:45 GMT)" executed successfully
+2026-02-19 15:39:45,808 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 15:44:45 GMT)" (scheduled at 2026-02-19 15:39:45.794704+00:00)
+2026-02-19 15:39:45,888 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 15:44:45 GMT)" executed successfully
+2026-02-19 15:44:45,803 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 15:49:45 GMT)" (scheduled at 2026-02-19 15:44:45.794704+00:00)
+2026-02-19 15:44:45,909 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 15:49:45 GMT)" executed successfully
+2026-02-19 15:49:45,809 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 15:54:45 GMT)" (scheduled at 2026-02-19 15:49:45.794704+00:00)
+2026-02-19 15:49:45,841 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 15:54:45 GMT)" executed successfully
+2026-02-19 15:54:45,809 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 15:59:45 GMT)" (scheduled at 2026-02-19 15:54:45.794704+00:00)
+2026-02-19 15:54:45,874 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 15:59:45 GMT)" executed successfully
+2026-02-19 15:59:45,809 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 16:04:45 GMT)" (scheduled at 2026-02-19 15:59:45.794704+00:00)
+2026-02-19 15:59:45,911 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 16:04:45 GMT)" executed successfully
+2026-02-19 16:04:45,811 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 16:09:45 GMT)" (scheduled at 2026-02-19 16:04:45.794704+00:00)
+2026-02-19 16:04:45,954 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 16:09:45 GMT)" executed successfully
+2026-02-19 16:09:45,807 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 16:14:45 GMT)" (scheduled at 2026-02-19 16:09:45.794704+00:00)
+2026-02-19 16:09:45,868 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 16:14:45 GMT)" executed successfully
+2026-02-19 16:14:45,805 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 16:19:45 GMT)" (scheduled at 2026-02-19 16:14:45.794704+00:00)
+2026-02-19 16:14:45,900 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 16:19:45 GMT)" executed successfully
+2026-02-19 16:19:45,802 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 16:24:45 GMT)" (scheduled at 2026-02-19 16:19:45.794704+00:00)
+2026-02-19 16:19:45,932 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 16:24:45 GMT)" executed successfully
+2026-02-19 16:24:45,811 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 16:29:45 GMT)" (scheduled at 2026-02-19 16:24:45.794704+00:00)
+2026-02-19 16:24:45,870 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 16:29:45 GMT)" executed successfully
+2026-02-19 16:29:45,811 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 16:34:45 GMT)" (scheduled at 2026-02-19 16:29:45.794704+00:00)
+2026-02-19 16:29:45,894 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 16:34:45 GMT)" executed successfully
+2026-02-19 16:34:45,798 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 16:39:45 GMT)" (scheduled at 2026-02-19 16:34:45.794704+00:00)
+2026-02-19 16:34:45,927 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 16:39:45 GMT)" executed successfully
+2026-02-19 16:39:45,807 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 16:44:45 GMT)" (scheduled at 2026-02-19 16:39:45.794704+00:00)
+2026-02-19 16:39:45,856 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 16:44:45 GMT)" executed successfully
+2026-02-19 16:44:45,808 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 16:49:45 GMT)" (scheduled at 2026-02-19 16:44:45.794704+00:00)
+2026-02-19 16:44:45,890 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 16:49:45 GMT)" executed successfully
+2026-02-19 16:49:45,812 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 16:54:45 GMT)" (scheduled at 2026-02-19 16:49:45.794704+00:00)
+2026-02-19 16:49:45,928 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 16:54:45 GMT)" executed successfully
+2026-02-19 16:54:45,800 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 16:59:45 GMT)" (scheduled at 2026-02-19 16:54:45.794704+00:00)
+2026-02-19 16:54:45,872 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 16:59:45 GMT)" executed successfully
+2026-02-19 16:59:45,810 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 17:04:45 GMT)" (scheduled at 2026-02-19 16:59:45.794704+00:00)
+2026-02-19 16:59:45,885 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 17:04:45 GMT)" executed successfully
+2026-02-19 17:04:45,797 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 17:09:45 GMT)" (scheduled at 2026-02-19 17:04:45.794704+00:00)
+2026-02-19 17:04:45,919 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 17:09:45 GMT)" executed successfully
+2026-02-19 17:09:45,806 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 17:14:45 GMT)" (scheduled at 2026-02-19 17:09:45.794704+00:00)
+2026-02-19 17:09:45,868 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 17:14:45 GMT)" executed successfully
+2026-02-19 17:14:45,796 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 17:19:45 GMT)" (scheduled at 2026-02-19 17:14:45.794704+00:00)
+2026-02-19 17:14:45,895 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 17:19:45 GMT)" executed successfully
+2026-02-19 17:19:45,805 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 17:24:45 GMT)" (scheduled at 2026-02-19 17:19:45.794704+00:00)
+2026-02-19 17:19:45,925 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 17:24:45 GMT)" executed successfully
+2026-02-19 17:24:45,806 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 17:29:45 GMT)" (scheduled at 2026-02-19 17:24:45.794704+00:00)
+2026-02-19 17:24:45,854 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 17:29:45 GMT)" executed successfully
+2026-02-19 17:29:45,797 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 17:34:45 GMT)" (scheduled at 2026-02-19 17:29:45.794704+00:00)
+2026-02-19 17:29:45,876 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 17:34:45 GMT)" executed successfully
+2026-02-19 17:34:45,801 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 17:39:45 GMT)" (scheduled at 2026-02-19 17:34:45.794704+00:00)
+2026-02-19 17:34:45,976 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 17:39:45 GMT)" executed successfully
+2026-02-19 17:39:45,797 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 17:44:45 GMT)" (scheduled at 2026-02-19 17:39:45.794704+00:00)
+2026-02-19 17:39:45,847 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 17:44:45 GMT)" executed successfully
+2026-02-19 17:44:45,797 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 17:49:45 GMT)" (scheduled at 2026-02-19 17:44:45.794704+00:00)
+2026-02-19 17:44:45,871 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 17:49:45 GMT)" executed successfully
+2026-02-19 17:49:45,798 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 17:54:45 GMT)" (scheduled at 2026-02-19 17:49:45.794704+00:00)
+2026-02-19 17:49:45,904 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 17:54:45 GMT)" executed successfully
+2026-02-19 17:54:45,805 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 17:59:45 GMT)" (scheduled at 2026-02-19 17:54:45.794704+00:00)
+2026-02-19 17:54:45,835 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 17:59:45 GMT)" executed successfully
+2026-02-19 17:59:45,802 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 18:04:45 GMT)" (scheduled at 2026-02-19 17:59:45.794704+00:00)
+2026-02-19 17:59:45,894 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 18:04:45 GMT)" executed successfully
+2026-02-19 18:04:45,808 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 18:09:45 GMT)" (scheduled at 2026-02-19 18:04:45.794704+00:00)
+2026-02-19 18:04:45,904 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 18:09:45 GMT)" executed successfully
+2026-02-19 18:09:45,804 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 18:14:45 GMT)" (scheduled at 2026-02-19 18:09:45.794704+00:00)
+2026-02-19 18:09:45,837 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 18:14:45 GMT)" executed successfully
+2026-02-19 18:14:45,798 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 18:19:45 GMT)" (scheduled at 2026-02-19 18:14:45.794704+00:00)
+2026-02-19 18:14:45,868 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 18:19:45 GMT)" executed successfully
+2026-02-19 18:19:45,801 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 18:24:45 GMT)" (scheduled at 2026-02-19 18:19:45.794704+00:00)
+2026-02-19 18:19:45,903 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 18:24:45 GMT)" executed successfully
+2026-02-19 18:24:45,811 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 18:29:45 GMT)" (scheduled at 2026-02-19 18:24:45.794704+00:00)
+2026-02-19 18:24:45,936 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 18:29:45 GMT)" executed successfully
+2026-02-19 18:29:45,812 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 18:34:45 GMT)" (scheduled at 2026-02-19 18:29:45.794704+00:00)
+2026-02-19 18:29:45,866 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 18:34:45 GMT)" executed successfully
+2026-02-19 18:30:29,026 - INFO - 10.252.0.102 - - [19/Feb/2026 18:30:29] "[32mGET / HTTP/1.1[0m" 302 -
+2026-02-19 18:30:29,060 - INFO - 10.252.0.102 - - [19/Feb/2026 18:30:29] "GET /login?next=/ HTTP/1.1" 200 -
+2026-02-19 18:30:29,277 - INFO - 10.252.0.102 - - [19/Feb/2026 18:30:29] "GET /static/styles.css HTTP/1.1" 200 -
+2026-02-19 18:30:29,291 - INFO - 10.252.0.102 - - [19/Feb/2026 18:30:29] "GET /static/scripts.js HTTP/1.1" 200 -
+2026-02-19 18:30:29,761 - INFO - 10.252.0.102 - - [19/Feb/2026 18:30:29] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2026-02-19 18:30:30,537 - INFO - 10.252.0.102 - - [19/Feb/2026 18:30:30] "GET /login?next=/ HTTP/1.1" 200 -
+2026-02-19 18:30:30,584 - INFO - 10.252.0.102 - - [19/Feb/2026 18:30:30] "[36mGET /static/styles.css HTTP/1.1[0m" 304 -
+2026-02-19 18:30:30,610 - INFO - 10.252.0.102 - - [19/Feb/2026 18:30:30] "[36mGET /static/scripts.js HTTP/1.1[0m" 304 -
+2026-02-19 18:30:48,220 - INFO - 10.252.0.102 - - [19/Feb/2026 18:30:48] "[32mPOST /login HTTP/1.1[0m" 302 -
+2026-02-19 18:30:48,281 - INFO - 10.252.0.102 - - [19/Feb/2026 18:30:48] "GET / HTTP/1.1" 200 -
+2026-02-19 18:30:48,332 - INFO - 10.252.0.102 - - [19/Feb/2026 18:30:48] "[36mGET /static/styles.css HTTP/1.1[0m" 304 -
+2026-02-19 18:30:48,356 - INFO - 10.252.0.102 - - [19/Feb/2026 18:30:48] "[36mGET /static/scripts.js HTTP/1.1[0m" 304 -
+2026-02-19 18:31:10,486 - INFO - 10.252.0.102 - - [19/Feb/2026 18:31:10] "GET /add-request HTTP/1.1" 200 -
+2026-02-19 18:31:10,544 - INFO - 10.252.0.102 - - [19/Feb/2026 18:31:10] "[36mGET /static/styles.css HTTP/1.1[0m" 304 -
+2026-02-19 18:31:10,562 - INFO - 10.252.0.102 - - [19/Feb/2026 18:31:10] "[36mGET /static/scripts.js HTTP/1.1[0m" 304 -
+2026-02-19 18:31:21,716 - INFO - 10.252.0.102 - - [19/Feb/2026 18:31:21] "GET / HTTP/1.1" 200 -
+2026-02-19 18:31:21,800 - INFO - 10.252.0.102 - - [19/Feb/2026 18:31:21] "[36mGET /static/styles.css HTTP/1.1[0m" 304 -
+2026-02-19 18:31:21,809 - INFO - 10.252.0.102 - - [19/Feb/2026 18:31:21] "[36mGET /static/scripts.js HTTP/1.1[0m" 304 -
+2026-02-19 18:31:31,770 - INFO - 10.252.0.102 - - [19/Feb/2026 18:31:31] "GET /add-request HTTP/1.1" 200 -
+2026-02-19 18:31:31,829 - INFO - 10.252.0.102 - - [19/Feb/2026 18:31:31] "[36mGET /static/styles.css HTTP/1.1[0m" 304 -
+2026-02-19 18:31:31,863 - INFO - 10.252.0.102 - - [19/Feb/2026 18:31:31] "[36mGET /static/scripts.js HTTP/1.1[0m" 304 -
+2026-02-19 18:31:37,633 - INFO - 10.252.0.102 - - [19/Feb/2026 18:31:37] "GET /library HTTP/1.1" 200 -
+2026-02-19 18:31:37,695 - INFO - 10.252.0.102 - - [19/Feb/2026 18:31:37] "[36mGET /static/styles.css HTTP/1.1[0m" 304 -
+2026-02-19 18:31:37,732 - INFO - 10.252.0.102 - - [19/Feb/2026 18:31:37] "[36mGET /static/scripts.js HTTP/1.1[0m" 304 -
+2026-02-19 18:31:43,341 - INFO - Fetching recommendations for 'Argylle' as movie
+2026-02-19 18:31:43,906 - INFO - Found 10 new recommendations for 'Argylle'
+2026-02-19 18:31:43,907 - INFO - Fetching recommendations for 'Braveheart' as movie
+2026-02-19 18:31:44,434 - INFO - Found 10 new recommendations for 'Braveheart'
+2026-02-19 18:31:44,434 - INFO - Fetching recommendations for 'Casino' as movie
+2026-02-19 18:31:44,992 - INFO - Found 10 new recommendations for 'Casino'
+2026-02-19 18:31:44,993 - INFO - Fetching recommendations for 'Dances with Wolves' as movie
+2026-02-19 18:31:45,504 - INFO - Found 10 new recommendations for 'Dances with Wolves'
+2026-02-19 18:31:45,505 - INFO - Fetching recommendations for 'Dunkirk' as movie
+2026-02-19 18:31:46,015 - INFO - Found 10 new recommendations for 'Dunkirk'
+2026-02-19 18:31:46,016 - INFO - Fetching recommendations for 'Enemy at the Gates' as movie
+2026-02-19 18:31:46,533 - INFO - Found 10 new recommendations for 'Enemy at the Gates'
+2026-02-19 18:31:46,535 - INFO - Fetching recommendations for 'GoodFellas' as movie
+2026-02-19 18:31:47,030 - INFO - Found 10 new recommendations for 'GoodFellas'
+2026-02-19 18:31:47,031 - INFO - Fetching recommendations for 'Hamnet' as movie
+2026-02-19 18:31:47,618 - INFO - Found 10 new recommendations for 'Hamnet'
+2026-02-19 18:31:47,619 - INFO - Fetching recommendations for 'Henry Danger: The Movie' as movie
+2026-02-19 18:31:48,165 - INFO - Found 10 new recommendations for 'Henry Danger: The Movie'
+2026-02-19 18:31:48,167 - INFO - Fetching recommendations for 'Highlander' as movie
+2026-02-19 18:31:48,699 - INFO - Found 10 new recommendations for 'Highlander'
+2026-02-19 18:31:48,701 - INFO - Fetching recommendations for 'How to Train Your Dragon' as movie
+2026-02-19 18:31:49,214 - INFO - Found 10 new recommendations for 'How to Train Your Dragon'
+2026-02-19 18:31:49,215 - INFO - Fetching recommendations for 'Inglourious Basterds' as movie
+2026-02-19 18:31:49,717 - INFO - Found 10 new recommendations for 'Inglourious Basterds'
+2026-02-19 18:31:49,719 - INFO - Fetching recommendations for 'Jungle Cruise' as movie
+2026-02-19 18:31:50,224 - INFO - Found 10 new recommendations for 'Jungle Cruise'
+2026-02-19 18:31:50,225 - INFO - Fetching recommendations for 'Lilo & Stitch' as movie
+2026-02-19 18:31:50,719 - INFO - Found 10 new recommendations for 'Lilo & Stitch'
+2026-02-19 18:31:50,720 - INFO - Fetching recommendations for 'Napoleon' as movie
+2026-02-19 18:31:51,233 - INFO - Found 10 new recommendations for 'Napoleon'
+2026-02-19 18:31:51,235 - INFO - Fetching recommendations for 'Nuremberg' as movie
+2026-02-19 18:31:51,738 - INFO - Found 10 new recommendations for 'Nuremberg'
+2026-02-19 18:31:51,739 - INFO - Fetching recommendations for 'The Patriot' as movie
+2026-02-19 18:31:52,244 - INFO - Found 10 new recommendations for 'The Patriot'
+2026-02-19 18:31:52,247 - INFO - Fetching recommendations for 'Pulp Fiction' as movie
+2026-02-19 18:31:52,756 - INFO - Found 10 new recommendations for 'Pulp Fiction'
+2026-02-19 18:31:52,758 - INFO - Fetching recommendations for 'Robin Hood: Prince of Thieves' as movie
+2026-02-19 18:31:53,276 - INFO - Found 10 new recommendations for 'Robin Hood: Prince of Thieves'
+2026-02-19 18:31:53,277 - INFO - Fetching recommendations for 'Saving Private Ryan' as movie
+2026-02-19 18:31:53,778 - INFO - Found 10 new recommendations for 'Saving Private Ryan'
+2026-02-19 18:31:53,779 - INFO - Fetching recommendations for 'Superman' as movie
+2026-02-19 18:31:54,328 - INFO - Found 10 new recommendations for 'Superman'
+2026-02-19 18:31:54,330 - INFO - Fetching recommendations for 'The Untouchables' as movie
+2026-02-19 18:31:54,851 - INFO - Found 10 new recommendations for 'The Untouchables'
+2026-02-19 18:31:54,852 - INFO - Fetching recommendations for 'Valkyrie' as movie
+2026-02-19 18:31:55,352 - INFO - Found 10 new recommendations for 'Valkyrie'
+2026-02-19 18:31:55,353 - INFO - Fetching recommendations for '2 Broke Girls' as tv show
+2026-02-19 18:31:55,844 - INFO - Found 10 new recommendations for '2 Broke Girls'
+2026-02-19 18:31:55,845 - INFO - Fetching recommendations for '9-1-1' as tv show
+2026-02-19 18:31:56,352 - INFO - Found 10 new recommendations for '9-1-1'
+2026-02-19 18:31:56,353 - INFO - Fetching recommendations for 'Agatha Raisin' as tv show
+2026-02-19 18:31:56,864 - INFO - Found 10 new recommendations for 'Agatha Raisin'
+2026-02-19 18:31:56,865 - INFO - Fetching recommendations for 'Amadeus' as tv show
+2026-02-19 18:31:57,230 - INFO - No recommendations found for 'Amadeus'
+2026-02-19 18:31:57,231 - INFO - Fetching recommendations for 'Danger Force' as tv show
+2026-02-19 18:31:57,777 - INFO - Found 10 new recommendations for 'Danger Force'
+2026-02-19 18:31:57,779 - INFO - Fetching recommendations for 'High Potential' as tv show
+2026-02-19 18:31:58,317 - INFO - Found 10 new recommendations for 'High Potential'
+2026-02-19 18:31:58,319 - INFO - Fetching recommendations for 'House of the Dragon' as tv show
+2026-02-19 18:31:58,951 - INFO - Found 10 new recommendations for 'House of the Dragon'
+2026-02-19 18:31:58,952 - INFO - Fetching recommendations for 'A Knight of the Seven Kingdoms' as tv show
+2026-02-19 18:31:59,472 - INFO - Found 10 new recommendations for 'A Knight of the Seven Kingdoms'
+2026-02-19 18:32:55,522 - INFO - Fetching recommendations for 'The Librarians' as tv show
+2026-02-19 18:32:56,184 - INFO - Found 10 new recommendations for 'The Librarians'
+2026-02-19 18:32:56,185 - INFO - Fetching recommendations for 'The Librarians: The Next Chapter' as tv show
+2026-02-19 18:32:56,704 - INFO - Found 10 new recommendations for 'The Librarians: The Next Chapter'
+2026-02-19 18:32:56,705 - INFO - Fetching recommendations for 'The Rookie' as tv show
+2026-02-19 18:32:57,255 - INFO - Found 10 new recommendations for 'The Rookie'
+2026-02-19 18:32:57,256 - INFO - Fetching recommendations for 'Rosemary & Thyme' as tv show
+2026-02-19 18:32:57,817 - INFO - Found 10 new recommendations for 'Rosemary & Thyme'
+2026-02-19 18:32:57,818 - INFO - Fetching recommendations for 'Sanditon' as tv show
+2026-02-19 18:32:58,334 - INFO - Found 10 new recommendations for 'Sanditon'
+2026-02-19 18:32:58,335 - INFO - Fetching recommendations for 'Shakespeare & Hathaway - Private Investigators' as tv show
+2026-02-19 18:32:58,859 - INFO - Found 10 new recommendations for 'Shakespeare & Hathaway - Private Investigators'
+2026-02-19 18:32:58,915 - INFO - 10.252.0.102 - - [19/Feb/2026 18:32:58] "GET /recommendations HTTP/1.1" 200 -
+2026-02-19 18:32:59,008 - INFO - 10.252.0.102 - - [19/Feb/2026 18:32:59] "[36mGET /static/styles.css HTTP/1.1[0m" 304 -
+2026-02-19 18:32:59,217 - INFO - 10.252.0.102 - - [19/Feb/2026 18:32:59] "[36mGET /static/scripts.js HTTP/1.1[0m" 304 -
+2026-02-19 18:33:26,750 - INFO - Fetched a total of 401 items from /tv/airing_today.
+2026-02-19 18:33:26,751 - INFO - Retrieved 401 TV shows airing today.
+2026-02-19 18:33:28,831 - INFO - Fetched a total of 401 items from /tv/airing_today.
+2026-02-19 18:33:28,832 - INFO - Retrieved 401 TV shows airing today.
+2026-02-19 18:33:28,919 - INFO - 10.252.0.102 - - [19/Feb/2026 18:33:28] "GET /future_releases HTTP/1.1" 200 -
+2026-02-19 18:33:28,995 - INFO - 10.252.0.102 - - [19/Feb/2026 18:33:28] "[36mGET /static/styles.css HTTP/1.1[0m" 304 -
+2026-02-19 18:33:29,195 - INFO - 10.252.0.102 - - [19/Feb/2026 18:33:29] "[36mGET /static/scripts.js HTTP/1.1[0m" 304 -
+2026-02-19 18:34:00,938 - INFO - Connected to qBittorrent successfully.
+2026-02-19 18:34:00,966 - INFO - Retrieved 13 active downloads.
+2026-02-19 18:34:01,013 - INFO - 10.252.0.102 - - [19/Feb/2026 18:34:01] "GET /downloads HTTP/1.1" 200 -
+2026-02-19 18:34:01,091 - INFO - 10.252.0.102 - - [19/Feb/2026 18:34:01] "[36mGET /static/styles.css HTTP/1.1[0m" 304 -
+2026-02-19 18:34:01,163 - INFO - 10.252.0.102 - - [19/Feb/2026 18:34:01] "[36mGET /static/scripts.js HTTP/1.1[0m" 304 -
+2026-02-19 18:34:45,811 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 18:39:45 GMT)" (scheduled at 2026-02-19 18:34:45.794704+00:00)
+2026-02-19 18:34:45,911 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 18:39:45 GMT)" executed successfully
+2026-02-19 18:39:45,801 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 18:44:45 GMT)" (scheduled at 2026-02-19 18:39:45.794704+00:00)
+2026-02-19 18:39:45,928 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 18:44:45 GMT)" executed successfully
+2026-02-19 18:44:45,805 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 18:49:45 GMT)" (scheduled at 2026-02-19 18:44:45.794704+00:00)
+2026-02-19 18:44:45,852 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 18:49:45 GMT)" executed successfully
+2026-02-19 18:49:45,797 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 18:54:45 GMT)" (scheduled at 2026-02-19 18:49:45.794704+00:00)
+2026-02-19 18:49:45,896 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 18:54:45 GMT)" executed successfully
+2026-02-19 18:54:45,801 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 18:59:45 GMT)" (scheduled at 2026-02-19 18:54:45.794704+00:00)
+2026-02-19 18:54:45,916 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 18:59:45 GMT)" executed successfully
+2026-02-19 18:59:45,812 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 19:04:45 GMT)" (scheduled at 2026-02-19 18:59:45.794704+00:00)
+2026-02-19 18:59:45,850 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 19:04:45 GMT)" executed successfully
+2026-02-19 19:04:45,809 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 19:09:45 GMT)" (scheduled at 2026-02-19 19:04:45.794704+00:00)
+2026-02-19 19:04:45,882 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 19:09:45 GMT)" executed successfully
+2026-02-19 19:09:45,811 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 19:14:45 GMT)" (scheduled at 2026-02-19 19:09:45.794704+00:00)
+2026-02-19 19:09:45,915 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 19:14:45 GMT)" executed successfully
+2026-02-19 19:14:45,800 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 19:19:45 GMT)" (scheduled at 2026-02-19 19:14:45.794704+00:00)
+2026-02-19 19:14:45,842 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 19:19:45 GMT)" executed successfully
+2026-02-19 19:19:45,800 - INFO - Running job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 19:24:45 GMT)" (scheduled at 2026-02-19 19:19:45.794704+00:00)
+2026-02-19 19:19:45,876 - INFO - Job "create_app.<locals>.process_pending_requests_task (trigger: interval[0:05:00], next run at: 2026-02-19 19:24:45 GMT)" executed successfully

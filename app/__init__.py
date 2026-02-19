@@ -67,9 +67,14 @@ def create_app():
     def process_pending_requests_task():
         with app.app_context():  # Ensure the task runs within the app context
             try:
-                # Call the processing function directly (imported at the top of this file)
-                from app.routes.request_processing_routes import process_requests_with_jackett_and_qbittorrent
-                process_requests_with_jackett_and_qbittorrent()
+                # Radarr, Sonarr, and Lidarr handle all downloads now
+                # This task just logs status of pending requests
+                from app.models import Request
+                pending_requests = Request.query.filter_by(status='Pending').all()
+                if pending_requests:
+                    current_app.logger.info(f"Found {len(pending_requests)} pending requests - managed by Radarr/Sonarr/Lidarr")
+                    # Requests are handled directly by the *arr services
+                    # Status will be updated when media appears in Jellyfin
             except Exception as e:
                 current_app.logger.error(f"Error running process_pending_requests_task: {e}")
 

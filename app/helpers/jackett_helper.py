@@ -128,14 +128,32 @@ class JackettHelper:
                     self.failed_search_cache[formatted_query] = time.time()
                     return []
 
-                # Log the results
+                # Filter for English torrents and log results
                 logging.info(f"Results found: {len(sorted_results)}")
+                english_results = []
                 for result in sorted_results:
-                    logging.info(
-                        f"Title: {result['title']} | Seeders: {result['seeders']} | Magnet: {result['magnet']}"
-                    )
-
-                return sorted_results
+                    # Skip non-English versions (Cyrillic, Chinese, etc.)
+                    title = result['title']
+                    # Check for Cyrillic characters
+                    has_cyrillic = any(ord(char) >= 0x0400 and ord(char) <= 0x04FF for char in title)
+                    # Check for Russian audio indicators in brackets
+                    is_russian_audio = ('MVO' in title or 'AVO' in title or 'DVO' in title or 'ПО' in title) and ('[' in title and ']' in title)
+                    
+                    if has_cyrillic or is_russian_audio:
+                        logging.info(f"Skipping non-English version: {title}")
+                        continue
+                    
+                    try:
+                        logging.info(
+                            f"Title: {title} | Seeders: {result['seeders']}"
+                        )
+                    except UnicodeEncodeError:
+                        pass
+                    
+                    english_results.append(result)
+                
+                logging.info(f"English torrents available: {len(english_results)}")
+                return english_results
 
             except requests.RequestException as e:
                 logging.error(f"Request error on attempt {attempt + 1}/{max_retries} for query '{formatted_query}': {e}")

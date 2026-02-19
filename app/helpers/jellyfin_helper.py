@@ -4,8 +4,22 @@ from config import Config
 from app.models import db, Media
 from datetime import datetime
 import sqlite3
+import re
 
 logging.basicConfig(level=logging.INFO)
+
+def parse_jellyfin_date(date_string):
+    """Parse Jellyfin datetime strings that may have 7 fractional second digits"""
+    if not date_string:
+        return None
+    
+    try:
+        # Jellyfin sometimes returns 7 fractional digits instead of 6
+        # Remove extra fractional seconds digits
+        date_string = re.sub(r'(\.\d{6})\d+Z', r'\1Z', date_string)
+        return datetime.strptime(date_string, '%Y-%m-%dT%H:%M:%S.%fZ').date()
+    except:
+        return None
 
 class JellyfinHelper:
     def __init__(self):
@@ -66,7 +80,7 @@ class JellyfinHelper:
                 media = Media(
                     media_type='Movie',
                     title=movie.get('Name', 'Unknown'),
-                    release_date=datetime.strptime(movie.get('PremiereDate', '2000-01-01'), '%Y-%m-%dT%H:%M:%S.%fZ').date() if movie.get('PremiereDate') else None,
+                    release_date=parse_jellyfin_date(movie.get('PremiereDate')),
                     description=movie.get('Overview', ''),
                     path=movie.get('Path', ''),
                     status='Available'
@@ -78,7 +92,7 @@ class JellyfinHelper:
                 media = Media(
                     media_type='TV Show',
                     title=show.get('Name', 'Unknown'),
-                    release_date=datetime.strptime(show.get('PremiereDate', '2000-01-01'), '%Y-%m-%dT%H:%M:%S.%fZ').date() if show.get('PremiereDate') else None,
+                    release_date=parse_jellyfin_date(show.get('PremiereDate')),
                     description=show.get('Overview', ''),
                     path=show.get('Path', ''),
                     status='Available'

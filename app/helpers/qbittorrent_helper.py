@@ -60,16 +60,19 @@ class QBittorrentHelper:
             raise e
 
     @retry_operation
-    def add_torrent(self, magnet_link, save_path):
+    def add_torrent(self, magnet_link, save_path, rename=None):
         """Add a torrent using a magnet link."""
         try:
             # Validate magnet link
             if not magnet_link.startswith("magnet:?xt=urn:btih:"):
                 raise ValueError("Invalid magnet link format.")
 
-            # Add the torrent
-            self.qb.torrents_add(urls=magnet_link, save_path=save_path)
-            logging.info(f"Torrent added successfully. Magnet link: {magnet_link}, Save path: {save_path}")
+            # Add the torrent with optional rename
+            self.qb.torrents_add(urls=magnet_link, save_path=save_path, rename=rename)
+            if rename:
+                logging.info(f"Torrent added successfully. Magnet link: {magnet_link}, Save path: {save_path}, Renamed to: {rename}")
+            else:
+                logging.info(f"Torrent added successfully. Magnet link: {magnet_link}, Save path: {save_path}")
 
         except Exception as e:
             logging.error(f"Error in add_torrent: {e}")

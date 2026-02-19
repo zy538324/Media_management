@@ -5,6 +5,9 @@ from app.models import Request, User, Download, Media, Recommendation, db, PastR
 from app.helpers.jackett_helper import JackettHelper
 from app.helpers.qbittorrent_helper import QBittorrentHelper
 from app.helpers.tmdb_helper import TMDbHelper
+from app.helpers.radarr_helper import RadarrHelper
+from app.helpers.sonarr_helper import SonarrHelper
+from app.helpers.lidarr_helper import LidarrHelper
 import re
 from datetime import datetime
 from sqlalchemy.exc import SQLAlchemyError
@@ -199,9 +202,19 @@ def recommendations():
     try:
         tmdb_helper = TMDbHelper()
         recommendations = []
+        
+        # Get all titles already in library (case-insensitive)
+        library_titles = {media.title.lower() for media in Media.query.all()}
+        
         for media in Media.query.all():
             media_recommendations = tmdb_helper.get_recommendations(media.title, media.media_type.lower())
-            recommendations.extend(media_recommendations)
+            
+            # Filter out recommendations that are already in the library
+            for rec in media_recommendations:
+                rec_title = rec.get('title', rec.get('name', '')).lower()
+                if rec_title and rec_title not in library_titles:
+                    recommendations.append(rec)
+        
         return render_template('recommendations.html', recommendations=recommendations)
     except Exception as e:
         logging.error(f"Error fetching recommendations: {e}", exc_info=True)
@@ -379,6 +392,8 @@ def add_request():
         title = request.form.get('title')
         media_type = request.form.get('type')
 
+        logging.info(f"[WEB ADD-REQUEST] Received request for title='{title}', type='{media_type}'")
+
         if not title or not media_type:
             flash('Title and media type are required.', 'danger')
             return redirect(url_for('web_routes.add_request'))
@@ -394,6 +409,77 @@ def add_request():
         try:
             db.session.add(new_request)
             db.session.commit()
+            logging.info(f"[WEB ADD-REQUEST] Request saved to database with ID: {new_request.id}")
+            
+            # Send to appropriate *arr service
+            tmdb_helper = TMDbHelper()
+            logging.info(f"[WEB ADD-REQUEST] Getting TMDb details for {title}")
+            media_details = tmdb_helper.get_media_details(title, media_type.lower())
+            logging.info(f"[WEB ADD-REQUEST] Media Details: {media_details}")
+            
+            try:
+                if media_type.lower() in ['movie'] and media_details:
+                    tmdb_id = media_details.get('id')
+                    logging.info(f"[WEB ADD-REQUEST] Checking if movie already exists in Radarr...")
+                    radarr = RadarrHelper()
+                    if radarr.api_url and radarr.api_key:
+                        # Check if movie already exists
+                        if radarr.check_movie_exists(tmdb_id):
+                            logging.info(f"[WEB ADD-REQUEST] Movie already exists in Radarr, skipping add")
+                            flash('This movie is already in Radarr!', 'info')
+                        else:
+                            logging.info(f"[WEB ADD-REQUEST] Sending to Radarr...")
+                            success = radarr.add_movie(tmdb_id, title)
+                            logging.info(f"[WEB ADD-REQUEST] Sent to Radarr: {title} (ID: {tmdb_id}) - Success: {success}")
+                    else:
+                        logging.warning(f"[WEB ADD-REQUEST] Radarr not configured")
+                        
+                elif media_type.lower() in ['tv', 'tv show', 'series'] and media_details:
+                    # For Sonarr, we need TVDB ID, not TMDb ID
+                    tvdb_id = media_details.get('external_ids', {}).get('tvdb_id') if 'external_ids' in media_details else None
+                    if not tvdb_id:
+                        # Try to fetch external IDs if not in initial response
+                        tv_id = media_details.get('id')
+                        ext_url = f"https://api.themoviedb.org/3/tv/{tv_id}/external_ids?api_key={tmdb_helper.api_key}"
+                        ext_response = tmdb_helper._make_request(ext_url, {})
+                        tvdb_id = ext_response.get('tvdb_id') if ext_response else None
+                    
+                    if tvdb_id:
+                        logging.info(f"[WEB ADD-REQUEST] Checking if series already exists in Sonarr...")
+                        sonarr = SonarrHelper()
+                        if sonarr.api_url and sonarr.api_key:
+                            # Check if series already exists
+                            if sonarr.check_series_exists(tvdb_id):
+                                logging.info(f"[WEB ADD-REQUEST] Series already exists in Sonarr, skipping add")
+                                flash('This series is already in Sonarr!', 'info')
+                            else:
+                                logging.info(f"[WEB ADD-REQUEST] Sending to Sonarr...")
+                                success = sonarr.add_series(tvdb_id, title)
+                                logging.info(f"[WEB ADD-REQUEST] Sent to Sonarr: {title} (TVDB ID: {tvdb_id}) - Success: {success}")
+                        else:
+                            logging.warning(f"[WEB ADD-REQUEST] Sonarr not configured")
+                    else:
+                        logging.warning(f"[WEB ADD-REQUEST] Could not find TVDB ID for {title}")
+                        
+                elif media_type.lower() in ['music', 'artist', 'album'] and media_details:
+                    # For Lidarr, use the person ID as string for artist lookup
+                    person_id = str(media_details.get('id', ''))
+                    logging.info(f"[WEB ADD-REQUEST] Checking if artist already exists in Lidarr...")
+                    lidarr = LidarrHelper()
+                    if lidarr.api_url and lidarr.api_key:
+                        # Check if artist already exists
+                        if lidarr.check_artist_exists(title):
+                            logging.info(f"[WEB ADD-REQUEST] Artist already exists in Lidarr, skipping add")
+                            flash('This artist is already in Lidarr!', 'info')
+                        else:
+                            logging.info(f"[WEB ADD-REQUEST] Sending to Lidarr...")
+                            success = lidarr.add_artist(person_id, title)
+                            logging.info(f"[WEB ADD-REQUEST] Sent to Lidarr: {title} (ID: {person_id}) - Success: {success}")
+                    else:
+                        logging.warning(f"[WEB ADD-REQUEST] Lidarr not configured")
+            except Exception as e:
+                logging.error(f"[WEB ADD-REQUEST] Error sending to *arr service: {e}", exc_info=True)
+            
             flash('Request added successfully!', 'success')
         except Exception as e:
             logging.error(f"Error adding request: {e}", exc_info=True)

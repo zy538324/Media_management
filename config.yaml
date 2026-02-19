@@ -1,32 +1,28 @@
 Database:
-  path: media_management.db
+  type: postgresql
+  host: 10.252.0.25
+  port: 5432
+  username: media_user
+  password: YOUR_DB_PASSWORD_HERE
+  database: media_management
   track_modifications: false
 Jackett:
-  api_key:
+  api_key: YOUR_JACKETT_API_KEY
   categories:
     Movies: '2000'
     Music: '3000'
     TV: '5000'
-  server_url: http://<ip>:9117/
+  server_url: http://10.252.0.2:9117/
 Jellyfin:
-  api_key:
-  server_url: http://<ip>:8096
-Secret_key:
+  api_key: YOUR_JELLYFIN_API_KEY
+  server_url: http://10.252.0.2:8096
+Secret_key: 'YOUR_SECRET_KEY_HERE'
 Spotify:
-  client_id:
-  client_secret:
+  client_id: YOUR_SPOTIFY_CLIENT_ID
+  client_secret: YOUR_SPOTIFY_CLIENT_SECRET
 TMDb:
-  api_key:
+  api_key: YOUR_TMDB_API_KEY
 qBittorrent:
-  host: http://<ip>:8080
-  password: admin
+  host: http://10.252.0.2:8080
+  password: YOUR_QBITTORRENT_PASSWORD
   username: admin
-Sonarr:
-  api_url: http://<sonarr_ip_or_hostname>:8989
-  api_key: YOUR_SONARR_API_KEY
-Radarr:
-  api_url: http://<radarr_ip_or_hostname>:7878
-  api_key: YOUR_RADARR_API_KEY
-Lidarr:
-  api_url: http://<lidarr_ip_or_hostname>:8686
-  api_key: YOUR_LIDARR_API_KEY

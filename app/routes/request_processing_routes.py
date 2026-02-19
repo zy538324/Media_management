@@ -46,10 +46,18 @@ def process_requests_with_jackett_and_qbittorrent():
         # Search for torrents on Jackett
         search_query = f"{validated_title} {release_year}"
         logging.info(f"Searching Jackett for: {search_query}")
-        magnet_link = jackett_helper.search_jackett(query=search_query, category=request.media_type)
+        search_results = jackett_helper.search_jackett(query=search_query, category=request.media_type)
 
+        if not search_results or len(search_results) == 0:
+            logging.warning(f"No suitable English torrents found for: {search_query}, skipping...")
+            continue
+
+        # Get the best result (highest seeders)
+        best_result = search_results[0]
+        magnet_link = best_result.get('magnet')
+        
         if not magnet_link:
-            logging.warning(f"No torrents found for: {search_query}, skipping...")
+            logging.warning(f"No magnet link in result for: {search_query}, skipping...")
             continue
 
         # Add the torrent to qBittorrent

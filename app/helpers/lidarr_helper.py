@@ -1,6 +1,7 @@
 import logging
 import requests # For type hinting and eventual use
 from config import Config
+import time
 
 class LidarrHelper:
     def __init__(self):
@@ -12,71 +13,231 @@ class LidarrHelper:
         if not self.api_url or not self.api_key:
             self.logger.warning("Lidarr API URL or API Key is not configured. LidarrHelper may not function.")
 
-    def add_artist(self, musicbrainz_id, artist_name, root_folder_path='/music/', quality_profile_id=1, metadata_profile_id=1, monitored=True, search_for_albums=True):
+    def check_artist_exists(self, artist_name):
         """
-        Adds an artist to Lidarr.
-        (Placeholder implementation)
-
-        Note: Lidarr typically requires a quality_profile_id and metadata_profile_id.
-        These default to 1, but should be verified against your Lidarr setup.
+        Check if an artist already exists in Lidarr by name (fuzzy match).
+        Also searches Lidarr's API to verify against MusicBrainz.
+        Returns True if exists, False otherwise.
         """
-        self.logger.info(
-            f"Attempting to add artist to Lidarr: musicbrainz_id={musicbrainz_id}, artist_name='{artist_name}', "
-            f"root_folder_path='{root_folder_path}', quality_profile_id={quality_profile_id}, "
-            f"metadata_profile_id={metadata_profile_id}"
-        )
+        if not self.api_url or not self.api_key:
+            self.logger.error("Lidarr API URL or API Key is not configured.")
+            return False
 
+        try:
+            # First, try searching Lidarr's lookup to get the MusicBrainz ID
+            search_endpoint = f"{self.api_url.rstrip('/')}/api/v1/artist/lookup"
+            headers = {'X-Api-Key': self.api_key}
+            search_params = {'term': artist_name}
+            
+            try:
+                search_response = requests.get(search_endpoint, params=search_params, headers=headers, timeout=10)
+                search_response.raise_for_status()
+                search_results = search_response.json()
+                
+                if search_results:
+                    # Get the MusicBrainz ID from search result
+                    musicbrainz_id = search_results[0].get('foreignArtistId')
+                    self.logger.info(f"Found artist in search: MusicBrainz ID {musicbrainz_id}")
+                    
+                    # Now check if this MusicBrainz ID already exists in library
+                    endpoint = f"{self.api_url.rstrip('/')}/api/v1/artist"
+                    response = requests.get(endpoint, headers=headers, timeout=10)
+                    response.raise_for_status()
+                    artists = response.json()
+                    
+                    for artist in artists:
+                        if artist.get('foreignArtistId') == musicbrainz_id:
+                            self.logger.info(f"Artist '{artist_name}' (MBID: {musicbrainz_id}) already exists in Lidarr: {artist.get('artistName')}")
+                            return True
+                    
+                    self.logger.info(f"Artist '{artist_name}' (MBID: {musicbrainz_id}) not found in Lidarr library")
+                    return False
+                    
+            except Exception as search_err:
+                self.logger.warning(f"Could not search Lidarr for artist: {search_err}, falling back to name match")
+            
+            # Fallback: Check by name (fuzzy match)
+            endpoint = f"{self.api_url.rstrip('/')}/api/v1/artist"
+            response = requests.get(endpoint, headers=headers, timeout=10)
+            response.raise_for_status()
+            artists = response.json()
+            
+            # Check if any artist has matching name (fuzzy - case insensitive, remove extra spaces)
+            artist_name_normalized = ' '.join(artist_name.lower().split())
+            for artist in artists:
+                artist_normalized = ' '.join(artist.get('artistName', '').lower().split())
+                # Exact match or partial match
+                if artist_normalized == artist_name_normalized or artist_name_normalized in artist_normalized or artist_normalized in artist_name_normalized:
+                    self.logger.info(f"Artist '{artist_name}' already exists in Lidarr: {artist.get('artistName')}")
+                    return True
+            
+            self.logger.info(f"Artist '{artist_name}' not found in Lidarr")
+            return False
+            
+        except Exception as e:
+            self.logger.error(f"Error checking if artist exists in Lidarr: {e}")
+            return False
+
+    def get_root_folders(self):
+        """
+        Get available root folders from Lidarr
+        """
+        if not self.api_url or not self.api_key:
+            self.logger.error("Lidarr API URL or API Key is not configured. Cannot get root folders.")
+            return []
+
+        endpoint = f"{self.api_url.rstrip('/')}/api/v1/rootfolder"
+        headers = {'X-Api-Key': self.api_key}
+
+        try:
+            response = requests.get(endpoint, headers=headers)
+            response.raise_for_status()
+            folders = response.json()
+            self.logger.info(f"Found {len(folders)} root folders in Lidarr")
+            for folder in folders:
+                self.logger.info(f"  - {folder.get('path')}")
+            return folders
+        except Exception as e:
+            self.logger.error(f"Error getting root folders from Lidarr: {e}")
+            return []
+
+    def search_musicbrainz_artist(self, artist_name):
+        """
+        Search MusicBrainz API directly for an artist.
+        Returns the MusicBrainz ID if found, None otherwise.
+        """
+        self.logger.info(f"Searching MusicBrainz for artist: {artist_name}")
+        
+        try:
+            # MusicBrainz API endpoint
+            url = "https://musicbrainz.org/ws/2/artist"
+            headers = {
+                'User-Agent': 'MediaManagementApp/1.0 (contact: admin@localhost)'
+            }
+            params = {
+                'query': f'artist:"{artist_name}"',
+                'fmt': 'json',
+                'limit': 5
+            }
+            
+            response = requests.get(url, params=params, headers=headers, timeout=10)
+            response.raise_for_status()
+            data = response.json()
+            
+            if 'artists' in data and len(data['artists']) > 0:
+                # Get the first/best match
+                artist = data['artists'][0]
+                mbid = artist.get('id')
+                name = artist.get('name')
+                self.logger.info(f"Found MusicBrainz ID: {mbid} for artist: {name}")
+                return mbid
+            else:
+                self.logger.warning(f"No MusicBrainz results for artist: {artist_name}")
+                return None
+                
+        except Exception as e:
+            self.logger.error(f"Error searching MusicBrainz for artist '{artist_name}': {e}")
+            return None
+
+    def add_artist(self, artist_id, artist_name, root_folder_path=None, quality_profile_id=1, metadata_profile_id=1, monitored=True, search_for_albums=True):
+        """
+        Adds an artist to Lidarr by searching for them first.
+        Note: Lidarr requires a MusicBrainz ID, so we search for the artist first.
+        Falls back to MusicBrainz API if Lidarr lookup fails.
+        """
         if not self.api_url or not self.api_key:
             self.logger.error("Lidarr API URL or API Key is not configured. Cannot add artist.")
             return False
 
-        # Lidarr API endpoint for adding an artist
-        # Lidarr's v1 API for adding an artist might expect the artist object directly,
-        # often obtained from a lookup/search first.
-        # A more direct add might involve /api/v1/artist or similar.
-        # For this placeholder, we'll construct a typical payload.
-        endpoint = f"{self.api_url.rstrip('/')}/api/v1/artist"
+        # If root_folder_path not provided, get it from Lidarr
+        if not root_folder_path:
+            folders = self.get_root_folders()
+            if folders:
+                root_folder_path = folders[0].get('path')
+                self.logger.info(f"Using root folder from Lidarr: {root_folder_path}")
+            else:
+                self.logger.error("Could not determine root folder path for Lidarr")
+                return False
 
-        # Request payload structure
-        payload = {
-            'artistName': artist_name, # Usually for display
-            'foreignArtistId': musicbrainz_id, # MusicBrainz ID
-            'qualityProfileId': quality_profile_id, # Check your Lidarr setup for actual ID
-            'metadataProfileId': metadata_profile_id, # Check your Lidarr setup for actual ID
-            'rootFolderPath': root_folder_path,
-            'monitored': monitored, # Monitor the artist for new albums
-            'addOptions': {
-                'searchForMissingAlbums': search_for_albums # Search for albums after adding
-            }
-        }
-        # Some Lidarr versions might require a slightly different payload, e.g. using 'artist' object from lookup.
-        # For example, to add an artist you might first lookup, then post the looked-up artist object.
-        # This is a simplified direct add payload.
+        self.logger.info(
+            f"Attempting to add artist to Lidarr: artist_name='{artist_name}', "
+            f"root_folder_path='{root_folder_path}', quality_profile_id={quality_profile_id}, "
+            f"metadata_profile_id={metadata_profile_id}"
+        )
 
-        # Headers for the API request
+        # First, try to search for the artist in Lidarr to get the MusicBrainz ID
+        self.logger.info(f"Searching Lidarr for artist: {artist_name}")
+        search_endpoint = f"{self.api_url.rstrip('/')}/api/v1/artist/lookup"
         headers = {
             'X-Api-Key': self.api_key,
             'Content-Type': 'application/json'
         }
-
-        self.logger.info(f"Lidarr add_artist endpoint: {endpoint}")
+        
+        search_params = {'term': artist_name}
+        musicbrainz_id = None
+        
+        try:
+            response = requests.get(search_endpoint, params=search_params, headers=headers, timeout=10)
+            response.raise_for_status()
+            search_results = response.json()
+            
+            if search_results and len(search_results) > 0:
+                # Use the first result
+                artist_data = search_results[0]
+                musicbrainz_id = artist_data.get('foreignArtistId')
+                self.logger.info(f"Found artist in Lidarr: {artist_data.get('artistName')} (MusicBrainz ID: {musicbrainz_id})")
+            else:
+                self.logger.warning(f"No results from Lidarr artist lookup for: {artist_name}")
+                
+        except requests.exceptions.HTTPError as e:
+            # If Lidarr lookup fails (503, 500, etc.), fall back to MusicBrainz
+            self.logger.warning(f"Lidarr artist lookup failed ({e.response.status_code}), falling back to MusicBrainz API")
+            time.sleep(1)  # Rate limit - be nice to external APIs
+            
+        except Exception as e:
+            self.logger.warning(f"Error during Lidarr artist lookup: {e}, falling back to MusicBrainz API")
+            time.sleep(1)
+        
+        # If we don't have a MusicBrainz ID yet, try MusicBrainz directly
+        if not musicbrainz_id:
+            self.logger.info("Attempting to get MusicBrainz ID from MusicBrainz API")
+            musicbrainz_id = self.search_musicbrainz_artist(artist_name)
+        
+        if not musicbrainz_id:
+            self.logger.error(f"Could not find MusicBrainz ID for artist: {artist_name}")
+            return False
+        
+        # Now add the artist using the MusicBrainz ID
+        add_endpoint = f"{self.api_url.rstrip('/')}/api/v1/artist"
+        
+        payload = {
+            'artistName': artist_name,
+            'foreignArtistId': musicbrainz_id,  # Use the MusicBrainz ID
+            'qualityProfileId': quality_profile_id,
+            'metadataProfileId': metadata_profile_id,
+            'rootFolderPath': root_folder_path,
+            'monitored': monitored,
+            'addOptions': {
+                'searchForMissingAlbums': search_for_albums
+            }
+        }
+        
+        self.logger.info(f"Lidarr add_artist endpoint: {add_endpoint}")
         self.logger.info(f"Lidarr add_artist payload: {payload}")
-        self.logger.info(f"Lidarr add_artist X-Api-Key: {headers.get('X-Api-Key', 'Key_Not_Set')[:5]}...")
-
-        # Placeholder for the actual request:
-        # try:
-        #     response = requests.post(endpoint, json=payload, headers=headers)
-        #     response.raise_for_status()
-        #     self.logger.info(f"Artist '{artist_name}' added to Lidarr successfully. Response: {response.json()}")
-        #     return True
-        # except requests.exceptions.RequestException as e:
-        #     self.logger.error(f"Error adding artist '{artist_name}' to Lidarr: {e}")
-        #     if response is not None:
-        #         self.logger.error(f"Lidarr response content: {response.text}")
-        #     return False
-
-        self.logger.info("Placeholder: Artist add operation 'simulated' successfully.")
-        return True # Simulate success for now
+        
+        try:
+            response = requests.post(add_endpoint, json=payload, headers=headers, timeout=10)
+            response.raise_for_status()
+            self.logger.info(f"Artist '{artist_name}' added to Lidarr successfully. Response: {response.json()}")
+            return True
+            
+        except requests.exceptions.RequestException as e:
+            self.logger.error(f"Error adding artist '{artist_name}' to Lidarr: {e}")
+            try:
+                self.logger.error(f"Lidarr response content: {response.text}")
+            except:
+                pass
+            return False
 
     def search_artist(self, term):
         """
